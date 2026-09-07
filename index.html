@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Marvel Shop — Premium Marvel Merchandise</title>
+<meta name="description" content="Shop premium Marvel merchandise, collectibles, apparel and accessories. Spider-Man, Iron Man, Captain America, Thor and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ── DESIGN TOKENS ── */
+:root{
+  --bg0:#050505;--bg1:#0d0d0d;--bg2:#111111;--bg3:#1a1a1a;--bgh:#222222;
+  --red:#E62429;--red-d:#b01c20;--red-g:rgba(230,36,41,.15);
+  --t0:#fff;--t1:#A0A0A0;--t2:#606060;
+  --bdr:#1e1e1e;--bdr2:#333;--silver:#C0C0C0;--gold:#C9A227;
+  --ok:#22c55e;--warn:#f59e0b;
+  --f:'Inter',-apple-system,sans-serif;
+  --r4:4px;--r8:8px;--r12:12px;--r16:16px;--r24:24px;
+  --sh:0 4px 24px rgba(0,0,0,.6);--sh2:0 8px 48px rgba(0,0,0,.8);--shr:0 4px 24px rgba(230,36,41,.25);
+  --ease:.25s cubic-bezier(.4,0,.2,1);--ease-s:.4s cubic-bezier(.4,0,.2,1);
+  --hh:72px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg0);color:var(--t0);font-family:var(--f);line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
+button{cursor:pointer;font-family:var(--f);border:none;background:none;-webkit-tap-highlight-color:transparent}
+input,select,textarea{font-family:var(--f)}ul,ol{list-style:none}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg1)}
+::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+
+/* ── UTILS ── */
+.container{max-width:1400px;margin:0 auto;padding:0 24px}
+.hidden{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:12px 26px;border-radius:var(--r8);font-size:13px;font-weight:700;
+  letter-spacing:.8px;text-transform:uppercase;white-space:nowrap;cursor:pointer;
+  border:none;position:relative;overflow:hidden;user-select:none;
+  transition:transform .28s cubic-bezier(.16,1,.3,1),box-shadow .28s cubic-bezier(.16,1,.3,1),background .25s ease,border-color .25s ease,color .25s ease;
+  will-change:transform,box-shadow;
+}
+.btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.18) 0%,transparent 50%,rgba(0,0,0,.15) 100%);
+  opacity:0;transition:opacity .25s ease;pointer-events:none;
+}
+.btn:hover::after{opacity:1}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.btn:active{transform:scale(.95) translateY(0)!important;transition-duration:.08s}
+
+.btn-primary{
+  background:linear-gradient(135deg,#E62429 0%,#c4191d 100%);
+  color:#fff;
+  box-shadow:0 4px 16px rgba(230,36,41,.35),inset 0 1px 0 rgba(255,255,255,.2);
+}
+.btn-primary:hover{
+  background:linear-gradient(135deg,#ff3338 0%,#E62429 100%);
+  transform:translateY(-3px);
+  box-shadow:0 10px 30px rgba(230,36,41,.55),0 2px 10px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.3);
+}
+
+.btn-outline{
+  background:rgba(255,255,255,.02);
+  color:var(--t0);
+  border:1.5px solid rgba(255,255,255,.18);
+  backdrop-filter:blur(8px);
+}
+.btn-outline:hover{
+  border-color:var(--red);
+  color:#fff;
+  background:rgba(230,36,41,.12);
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(230,36,41,.32);
+}
+
+.btn-ghost{
+  background:rgba(255,255,255,.06);
+  color:var(--t0);
+  border:1px solid rgba(255,255,255,.08);
+}
+.btn-ghost:hover{
+  background:rgba(255,255,255,.12);
+  transform:translateY(-2px);
+  border-color:rgba(255,255,255,.2);
+}
+.btn-sm{padding:8px 16px;font-size:12px;min-height:36px}
+.btn-lg{padding:15px 32px;font-size:14px;min-height:50px}
+.btn-full{width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+
+/* ── HEADER ── */
+#header{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--hh);background:rgba(5,5,5,.88);backdrop-filter:blur(24px);border-bottom:1px solid transparent;transition:all var(--ease)}
+#header.scrolled{background:rgba(5,5,5,.97);border-bottom-color:var(--bdr);height:64px;box-shadow:0 2px 20px rgba(0,0,0,.5)}
+.hdr-inner{display:flex;align-items:center;gap:20px;height:100%;max-width:1400px;margin:0 auto;padding:0 24px}
+.logo{display:flex;align-items:center;gap:7px;cursor:pointer;flex-shrink:0;user-select:none;transition:transform var(--ease)}
+.logo:hover{transform:scale(1.03)}
+.marvel-box{background:var(--red);color:#fff;font-size:19px;font-weight:900;letter-spacing:-0.4px;padding:4px 9px 3px;border-radius:2px;line-height:1;display:inline-flex;align-items:center;box-shadow:0 0 16px rgba(230,36,41,.45)}
+.logo-shop{font-size:17px;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:#fff}
+.hdr-search{flex:1;max-width:480px;position:relative}
+.search-wrap{position:relative;display:flex;align-items:center}
+.search-in{width:100%;background:var(--bg3);border:1.5px solid var(--bdr);border-radius:var(--r12);padding:10px 16px 10px 44px;color:var(--t0);font-size:14px;transition:all var(--ease);outline:none}
+.search-in::placeholder{color:var(--t2)}
+.search-in:focus{border-color:var(--red);background:var(--bg2);box-shadow:0 0 0 3px var(--red-g)}
+.s-icon{position:absolute;left:14px;color:var(--t2);pointer-events:none;display:flex}
+.s-clear{position:absolute;right:10px;color:var(--t2);cursor:pointer;font-size:15px;display:none;background:none;border:none;padding:4px}
+.s-clear.vis{display:block}
+.search-drop{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r12);box-shadow:var(--sh2);z-index:100;display:none;overflow:hidden}
+.search-drop.open{display:block}
+.sdrop-ttl{padding:9px 16px;font-size:11px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--bdr)}
+.sdrop-item{display:flex;align-items:center;gap:12px;padding:11px 16px;cursor:pointer;font-size:13px;transition:background var(--ease)}
+.sdrop-item:hover{background:var(--bgh)}
+.hdr-nav{display:flex;align-items:center;gap:2px}
+.nav-lnk{padding:6px 11px;border-radius:var(--r8);font-size:13px;font-weight:500;color:var(--t1);transition:all var(--ease);cursor:pointer;white-space:nowrap}
+.nav-lnk:hover,.nav-lnk.active{color:var(--t0);background:var(--bgh)}
+.nav-lnk.active{color:var(--red)}
+.hdr-actions{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.hbtn{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:var(--r8);color:var(--t1);transition:all var(--ease);cursor:pointer;position:relative;background:none;border:none}
+.hbtn:hover{color:var(--t0);background:var(--bgh)}
+.badge{position:absolute;top:4px;right:4px;background:var(--red);color:#fff;font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.badge.pop{animation:bpop .4s cubic-bezier(.68,-.55,.265,1.55)}
+@keyframes bpop{0%{transform:scale(1)}50%{transform:scale(1.6)}100%{transform:scale(1)}}
+.ham-btn{display:none;flex-direction:column;gap:5px;width:40px;height:40px;align-items:center;justify-content:center;border-radius:var(--r8);background:none;border:none;cursor:pointer}
+.ham-btn:hover{background:var(--bgh)}
+.ham-line{width:22px;height:2px;background:var(--t0);border-radius:2px;transition:all var(--ease);pointer-events:none}
+
+/* ── MOBILE MENU ── */
+#mob-menu{position:fixed;inset:0;z-index:990;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);display:none;opacity:0;transition:opacity var(--ease);justify-content:flex-end}
+#mob-menu.open{display:flex}
+#mob-menu.vis{opacity:1}
+.mob-panel{width:min(300px,88vw);height:100%;background:var(--bg3);border-left:1px solid var(--bdr);transform:translateX(100%);transition:transform var(--ease-s);overflow-y:auto;padding:80px 20px 40px}
+#mob-menu.vis .mob-panel{transform:translateX(0)}
+.mob-lnk{display:block;padding:13px 0;font-size:15px;font-weight:500;color:var(--t1);border-bottom:1px solid var(--bdr);cursor:pointer;transition:color var(--ease)}
+.mob-lnk:hover,.mob-lnk.active{color:var(--t0)}
+
+/* ── MAIN ── */
+#main{padding-top:var(--hh);min-height:100vh}
+.page{animation:pgIn .3s ease-out}
+@keyframes pgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HERO ── */
+.hero{position:relative;min-height:calc(100vh - var(--hh));display:flex;align-items:center;overflow:hidden;background:#050505}
+.hero-cinematic{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.hero-slides{position:absolute;inset:0;overflow:hidden}
+.hero-slide{position:absolute;inset:0;background-size:cover;background-repeat:no-repeat;opacity:0;transform:scale(1);transition:opacity .9s cubic-bezier(.4,0,.2,1),transform 8s ease-out;filter:brightness(.96) contrast(1.1) saturate(1.12);will-change:opacity,transform}
+.hero-slide.active{opacity:1;transform:scale(1.03)}
+.hero-cinematic-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,5,.75) 0%,rgba(5,5,5,.15) 42%,rgba(5,5,5,.04) 65%,rgba(5,5,5,.2) 100%),linear-gradient(0deg,#050505 0%,rgba(5,5,5,.65) 10%,transparent 35%),linear-gradient(180deg,rgba(5,5,5,.5) 0%,transparent 18%);z-index:1}
+.hero-aura{position:absolute;width:680px;height:680px;top:10%;right:12%;border-radius:50%;background:radial-gradient(circle,rgba(230,36,41,.22) 0%,transparent 70%);filter:blur(80px);pointer-events:none;z-index:1;animation:auraPulse 8s ease-in-out infinite alternate}
+@keyframes auraPulse{0%{opacity:.4;transform:scale(.92)}100%{opacity:.85;transform:scale(1.15)}}
+.hero-grid{position:absolute;inset:0;z-index:2;background-image:linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);background-size:60px 60px;animation:gridmov 25s linear infinite;pointer-events:none}
+@keyframes gridmov{0%{transform:translateY(0)}100%{transform:translateY(60px)}}
+.hero-embers{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+.ember{position:absolute;width:4px;height:4px;border-radius:50%;background:#ff4d4d;box-shadow:0 0 8px #ff2222,0 0 16px #ff8800;opacity:0;animation:emberFloat linear infinite}
+.e1{left:20%;bottom:-10px;animation-duration:8s;animation-delay:0s}
+.e2{left:42%;bottom:-10px;animation-duration:9.5s;animation-delay:1.5s;width:3px;height:3px;background:#ffa500}
+.e3{left:62%;bottom:-10px;animation-duration:7s;animation-delay:3.2s}
+.e4{left:78%;bottom:-10px;animation-duration:8.5s;animation-delay:.7s;width:5px;height:5px}
+.e5{left:32%;bottom:-10px;animation-duration:10s;animation-delay:4s;background:#ffdd00}
+.e6{left:88%;bottom:-10px;animation-duration:7.5s;animation-delay:2s}
+@keyframes emberFloat{0%{transform:translate(0,0) scale(.6);opacity:0}20%{opacity:.85}75%{opacity:.8}100%{transform:translate(45px,-75vh) scale(.2);opacity:0}}
+.hero-container{position:relative;z-index:3;display:flex;flex-direction:column;justify-content:center;max-width:1400px;margin:0 auto;padding:60px 24px 40px;width:100%;min-height:calc(100vh - var(--hh))}
+.hero-c{max-width:540px;background:rgba(8,8,8,.58);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:34px 38px;border-radius:var(--r24);border:1px solid rgba(255,255,255,.09);box-shadow:0 18px 45px rgba(0,0,0,.7)}
+.h-anim-1{animation:heroFadeIn .8s cubic-bezier(.16,1,.3,1) .1s both}
+.h-anim-2{animation:heroFadeIn .8s cubic-bezier(.16,1,.3,1) .22s both}
+.h-anim-3{animation:heroFadeIn .8s cubic-bezier(.16,1,.3,1) .35s both}
+.h-anim-4{animation:heroFadeIn .8s cubic-bezier(.16,1,.3,1) .48s both}
+.h-anim-5{animation:heroFadeIn .8s cubic-bezier(.16,1,.3,1) .6s both}
+@keyframes heroFadeIn{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(230,36,41,.15);border:1px solid rgba(230,36,41,.4);border-radius:100px;padding:7px 16px;font-size:12px;font-weight:700;color:var(--red);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:20px;box-shadow:0 0 20px rgba(230,36,41,.2)}
+.hbadge-dot{width:7px;height:7px;background:var(--red);border-radius:50%;box-shadow:0 0 8px var(--red);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.hero-title{font-size:clamp(34px,4.2vw,58px);font-weight:900;line-height:1.05;letter-spacing:-1.5px;text-transform:uppercase;margin-bottom:16px;min-height:2.2em;display:flex;flex-direction:column;justify-content:center}
+.acc-shimmer{background:linear-gradient(90deg,#E62429 0%,#ff6b6b 35%,#ffffff 50%,#ff6b6b 65%,#E62429 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:textShine 4s linear infinite;text-shadow:0 0 30px rgba(230,36,41,.35)}
+@keyframes textShine{0%{background-position:0% center}100%{background-position:200% center}}
+.hero-sub{font-size:14px;color:var(--t1);line-height:1.7;margin-bottom:26px;min-height:3.4em}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-shimmer{position:relative;overflow:hidden}
+.btn-shimmer::before{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);
+  transform:skewX(-25deg);
+  animation:btnSweep 3.5s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes btnSweep{0%,100%{left:-100%}22%,35%{left:200%}}
+.hero-stats{display:flex;gap:36px;margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
+.hstat-item{display:flex;flex-direction:column}
+.hstat-val{font-size:22px;font-weight:800;color:#fff}
+.hstat-lbl{font-size:11px;color:var(--t2);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.hero-selector{
+  display:inline-flex;align-items:center;gap:6px;background:rgba(12,12,12,.78);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.14);padding:5px;border-radius:100px;
+  width:fit-content;box-shadow:0 12px 35px rgba(0,0,0,.7);margin-top:24px;
+  transition:all .3s ease;
+}
+.hsel-btn{
+  display:flex;align-items:center;gap:7px;padding:9px 18px;border-radius:100px;
+  font-size:12px;font-weight:700;letter-spacing:.6px;color:var(--t1);
+  border:none;background:none;cursor:pointer;
+  transition:all .28s cubic-bezier(.16,1,.3,1);
+  text-transform:uppercase;user-select:none;
+}
+.hsel-btn:hover{color:#fff;background:rgba(255,255,255,.1);transform:translateY(-1px)}
+.hsel-btn:active{transform:scale(.95)}
+.hsel-btn.active{
+  color:#fff;background:linear-gradient(135deg,#E62429,#b8181c);
+  box-shadow:0 0 20px rgba(230,36,41,.55),0 4px 12px rgba(0,0,0,.4);
+}
+
+.hero-scroll{
+  position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:var(--t2);font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);
+}
+.hero-scroll:hover{color:#fff;transform:translateX(-50%) translateY(-3px)}
+.scroll-mouse{
+  width:22px;height:32px;border:2px solid var(--t2);border-radius:11px;
+  display:flex;justify-content:center;padding-top:5px;
+  transition:all .3s ease;
+}
+.hero-scroll:hover .scroll-mouse{border-color:var(--red);box-shadow:0 0 14px rgba(230,36,41,.4)}
+.scroll-dot{width:3px;height:7px;background:var(--red);border-radius:2px;animation:sdot 1.8s ease infinite}
+@keyframes sdot{0%{transform:translateY(0);opacity:1}100%{transform:translateY(11px);opacity:0}}
+
+/* ── SECTIONS ── */
+.section{padding:76px 0}
+.sec-hdr{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:44px;gap:20px}
+.sec-tag{display:inline-block;font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
+.sec-title{font-size:clamp(22px,3vw,34px);font-weight:800;letter-spacing:-.5px;line-height:1.2}
+.sec-sub{font-size:14px;color:var(--t2);margin-top:6px}
+
+/* ── MARQUEE ── */
+.marquee-strip{background:var(--red);padding:11px 0;overflow:hidden}
+.marquee-track{display:flex;gap:48px;animation:marq 22s linear infinite;white-space:nowrap;width:max-content}
+.marq-item{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:12px}
+.marq-sep{color:rgba(255,255,255,.4)}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── CHARACTER CARDS (SHOP BY HERO) ── */
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.cat-card{position:relative;aspect-ratio:3/4;border-radius:var(--r16);overflow:hidden;cursor:pointer;background:var(--bg2);border:1px solid var(--bdr);transition:all var(--ease-s);box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.cat-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.8),0 0 24px rgba(230,36,41,.25);border-color:var(--red)}
+.cat-card-img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .6s cubic-bezier(.16,1,.3,1),filter .5s ease;filter:brightness(.92) contrast(1.05)}
+.cat-card:hover .cat-card-img{transform:scale(1.08);filter:brightness(1.06) contrast(1.1)}
+.cat-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,5,.96) 20%,rgba(5,5,5,.5) 50%,transparent 85%)}
+.cat-content{position:absolute;bottom:0;left:0;right:0;padding:20px;z-index:2}
+.cat-badge{display:inline-block;padding:3px 8px;border-radius:100px;background:rgba(230,36,41,.2);border:1px solid rgba(230,36,41,.4);color:var(--red);font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.cat-name{font-size:18px;font-weight:900;letter-spacing:-.3px;color:#fff}
+.cat-cnt{font-size:11px;color:var(--silver);margin-top:3px;font-weight:600}
+.cat-cta{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--red);margin-top:8px;opacity:0;transform:translateY(6px);transition:all var(--ease)}
+.cat-card:hover .cat-cta{opacity:1;transform:translateY(0)}
+
+/* ── PRODUCT GRID ── */
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.prod-grid-3{grid-template-columns:repeat(3,1fr)}
+.shop-layout{display:grid;grid-template-columns:256px 1fr;gap:28px;align-items:start}
+
+/* ── PRODUCT CARD ── */
+.pcard{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r16);overflow:hidden;transition:all var(--ease-s);position:relative;cursor:pointer}
+.pcard:hover{transform:translateY(-4px);border-color:var(--bdr2);box-shadow:var(--sh2)}
+.pcard-img-wrap{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--bg3)}
+.pcard-img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.pcard:hover .pcard-img{transform:scale(1.07)}
+.pbadges{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:5px;z-index:2}
+.ptag{display:inline-block;padding:3px 8px;border-radius:var(--r4);font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.ptag-sale{background:var(--red);color:#fff}
+.ptag-new{background:var(--gold);color:#000}
+.ptag-hot{background:#ff6b35;color:#fff}
+.pwish-btn{
+  position:absolute;top:10px;right:10px;width:36px;height:36px;
+  border-radius:50%;background:rgba(8,8,8,.78);backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:all .28s cubic-bezier(.16,1,.3,1);font-size:16px;z-index:2;
+  opacity:0;transform:scale(.8);
+}
+.pcard:hover .pwish-btn,.pwish-btn.active{opacity:1;transform:scale(1)}
+.pwish-btn:hover{background:rgba(230,36,41,.2);border-color:var(--red);transform:scale(1.12)}
+.pwish-btn:active{transform:scale(.92)}
+.pwish-btn.active{color:var(--red);animation:heartPop .35s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes heartPop{0%{transform:scale(1)}50%{transform:scale(1.35)}100%{transform:scale(1)}}
+
+.qview-btn{
+  position:absolute;bottom:10px;left:10px;right:10px;
+  background:rgba(8,8,8,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.18);color:var(--t0);border-radius:var(--r8);
+  padding:10px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  text-align:center;cursor:pointer;transition:all .28s cubic-bezier(.16,1,.3,1);
+  opacity:0;transform:translateY(8px);z-index:2;
+}
+.pcard:hover .qview-btn{opacity:1;transform:translateY(0)}
+.qview-btn:hover{background:var(--red);border-color:var(--red);box-shadow:0 4px 18px rgba(230,36,41,.5);transform:translateY(-1px)}
+.qview-btn:active{transform:scale(.97)}
+.pcard-info{padding:14px}
+.pchar{font-size:10px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.pname{font-size:13px;font-weight:600;line-height:1.4;margin-bottom:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.prating{display:flex;align-items:center;gap:5px;margin-bottom:8px}
+.stars{color:var(--gold);font-size:11px;letter-spacing:1px}
+.rval{font-size:12px;font-weight:600;color:var(--t1)}
+.rcnt{font-size:11px;color:var(--t2)}
+.ppricing{display:flex;align-items:baseline;gap:7px;margin-bottom:10px;flex-wrap:wrap}
+.pprice{font-size:17px;font-weight:800}
+.pold{font-size:12px;color:var(--t2);text-decoration:line-through}
+.poff{font-size:11px;font-weight:700;color:var(--ok)}
+.atc-btn{
+  width:100%;background:var(--bg3);border:1.5px solid var(--bdr);
+  color:var(--t0);border-radius:var(--r8);padding:10px;font-size:11px;
+  font-weight:700;letter-spacing:.6px;text-transform:uppercase;cursor:pointer;
+  transition:all .28s cubic-bezier(.16,1,.3,1);min-height:40px;font-family:var(--f);
+  position:relative;overflow:hidden;
+}
+.atc-btn:hover{
+  background:linear-gradient(135deg,#E62429,#b01c20);
+  border-color:#E62429;color:#fff;
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(230,36,41,.45);
+}
+.atc-btn:active{transform:scale(.95)!important}
+.atc-btn.adding{background:var(--bgh);border-color:var(--bdr);color:var(--t2);pointer-events:none}
+.atc-btn.added{
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  border-color:#22c55e;color:#fff;
+  box-shadow:0 0 16px rgba(34,197,94,.4);
+  animation:btnSuccessPulse .4s cubic-bezier(.16,1,.3,1);
+}
+@keyframes btnSuccessPulse{0%{transform:scale(.95)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+
+/* ── SKELETON ── */
+.skel{background:linear-gradient(90deg,var(--bg3) 25%,var(--bgh) 50%,var(--bg3) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:var(--r8)}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1);will-change:opacity,transform}
+.reveal.vis{opacity:1;transform:translateY(0)}
+
+/* ── FILTER SIDEBAR ── */
+.filter-sb{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r16);padding:22px;position:sticky;top:calc(var(--hh) + 20px);max-height:calc(100vh - var(--hh) - 40px);overflow-y:auto}
+.filter-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--bdr)}
+.filter-title{font-size:15px;font-weight:700}
+.filter-clear{font-size:12px;color:var(--red);cursor:pointer;background:none;border:none;font-weight:600;font-family:var(--f)}
+.fgroup{margin-bottom:20px;border-bottom:1px solid var(--bdr);padding-bottom:16px}
+.fgroup:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.fgtitle{font-size:12px;font-weight:700;color:var(--t0);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;text-transform:uppercase;letter-spacing:.5px}
+.fgbody{display:flex;flex-direction:column;gap:8px}
+.fgroup.collapsed .fgbody{display:none}
+.fgroup.collapsed .fgtitle svg{transform:rotate(-90deg)}
+.fgtitle svg{transition:transform var(--ease)}
+.fopt{display:flex;align-items:center;gap:9px;cursor:pointer;padding:3px 0}
+.fopt input{display:none}
+.fchk{width:17px;height:17px;border:2px solid var(--bdr2);border-radius:4px;background:transparent;flex-shrink:0;transition:all var(--ease);display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700}
+.fopt input:checked+.fchk{background:var(--red);border-color:var(--red)}
+.fopt input:checked+.fchk::after{content:'✓'}
+.fopt-lbl{font-size:13px;color:var(--t1);flex:1}
+.fopt-cnt{font-size:11px;color:var(--t2)}
+.pr-display{display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:10px}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;background:transparent;pointer-events:none;position:absolute;top:-8px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;background:var(--red);border-radius:50%;border:2px solid var(--bg0);cursor:pointer;pointer-events:all;box-shadow:0 0 0 2px var(--red)}
+.pr-track-wrap{position:relative;height:20px;margin:0 2px 12px}
+.pr-track{position:absolute;top:50%;transform:translateY(-50%);height:3px;background:var(--bdr2);border-radius:2px;width:100%}
+.pr-fill{position:absolute;top:50%;transform:translateY(-50%);height:3px;background:var(--red);border-radius:2px}
+
+/* ── SHOP CONTROLS ── */
+.shop-ctrl{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.pcnt{font-size:13px;color:var(--t2)}
+.pcnt strong{color:var(--t0)}
+.sort-sel{background:var(--bg3);border:1.5px solid var(--bdr);border-radius:var(--r8);color:var(--t0);padding:9px 14px;font-size:13px;cursor:pointer;outline:none;transition:border-color var(--ease)}
+.sort-sel:focus{border-color:var(--red)}
+
+/* ── CART DRAWER ── */
+#cart-ov{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:1100;opacity:0;pointer-events:none;transition:opacity var(--ease-s);backdrop-filter:blur(4px)}
+#cart-ov.open{opacity:1;pointer-events:all}
+#cart-drw{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);background:var(--bg3);z-index:1101;transform:translateX(100%);transition:transform var(--ease-s);display:flex;flex-direction:column;border-left:1px solid var(--bdr)}
+#cart-drw.open{transform:translateX(0)}
+.cart-hdr{padding:18px 22px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between}
+.cart-hdr-title{font-size:17px;font-weight:700}
+.cart-x{width:34px;height:34px;border-radius:var(--r8);background:var(--bgh);border:1px solid var(--bdr);color:var(--t1);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--ease);font-size:16px}
+.cart-x:hover{color:var(--t0)}
+.cart-items{flex:1;overflow-y:auto;padding:14px}
+.cart-empty-s{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;gap:12px}
+.cart-empty-ico{font-size:52px;opacity:.25}
+.citem{display:flex;gap:12px;padding:12px;background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r12);margin-bottom:10px;transition:border-color var(--ease)}
+.citem:hover{border-color:var(--bdr2)}
+.citem-img{width:68px;height:86px;object-fit:cover;border-radius:var(--r8);background:var(--bg3);flex-shrink:0}
+.citem-info{flex:1;min-width:0}
+.citem-name{font-size:13px;font-weight:600;line-height:1.4;margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.citem-meta{font-size:11px;color:var(--t2);margin-bottom:8px}
+.citem-price{font-size:14px;font-weight:700}
+.citem-ctrl{display:flex;align-items:center;gap:7px;margin-top:6px}
+.qty-btn{width:26px;height:26px;border-radius:6px;background:var(--bg3);border:1px solid var(--bdr);color:var(--t0);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;font-weight:700;transition:all var(--ease)}
+.qty-btn:hover{background:var(--red);border-color:var(--red)}
+.qty-v{font-size:13px;font-weight:700;min-width:22px;text-align:center}
+.citem-rm{font-size:11px;color:var(--t2);cursor:pointer;margin-left:auto;background:none;border:none;font-family:var(--f);transition:color var(--ease)}
+.citem-rm:hover{color:var(--red)}
+.cart-footer{padding:18px 22px;border-top:1px solid var(--bdr);background:var(--bg2)}
+.cart-sum{margin-bottom:14px}
+.cart-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13px}
+.cart-row.total{font-weight:700;font-size:15px;padding-top:10px;margin-top:5px;border-top:1px solid var(--bdr)}
+.cart-lbl{color:var(--t1)}
+.cart-disc{color:var(--ok)}
+.cart-actions{display:flex;flex-direction:column;gap:9px}
+
+/* ── MODAL ── */
+#mod-ov{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:1200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity var(--ease);backdrop-filter:blur(10px)}
+#mod-ov.open{opacity:1;pointer-events:all}
+.modal{background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r24);width:100%;max-width:880px;max-height:90vh;overflow-y:auto;transform:scale(.92) translateY(20px);transition:transform var(--ease-s);position:relative}
+#mod-ov.open .modal{transform:scale(1) translateY(0)}
+.modal-x{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;background:var(--bgh);border:1px solid var(--bdr);color:var(--t1);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;font-size:16px;transition:all var(--ease)}
+.modal-x:hover{color:var(--t0)}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr}
+.modal-gal{position:relative}
+.modal-main-img{aspect-ratio:3/4;object-fit:cover;width:100%;border-radius:var(--r24) 0 0 var(--r24);background:var(--bg2)}
+.modal-thumbs{display:flex;gap:7px;padding:10px;overflow-x:auto}
+.m-thumb{width:58px;height:72px;object-fit:cover;border-radius:var(--r8);cursor:pointer;border:2px solid transparent;transition:border-color var(--ease);flex-shrink:0}
+.m-thumb.active,.m-thumb:hover{border-color:var(--red)}
+.modal-info{padding:28px;display:flex;flex-direction:column;overflow-y:auto}
+.m-char{font-size:10px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:2px;margin-bottom:7px}
+.m-title{font-size:20px;font-weight:800;line-height:1.3;margin-bottom:10px}
+.m-rating{display:flex;align-items:center;gap:9px;margin-bottom:18px}
+.m-price-big{font-size:26px;font-weight:800;margin-bottom:4px}
+.m-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:18px}
+.m-old{font-size:14px;color:var(--t2);text-decoration:line-through}
+.m-disc{font-size:13px;font-weight:700;color:var(--ok)}
+.m-sec-ttl{font-size:11px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.sz-opts,.cl-opts{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.sz-btn{min-width:40px;height:40px;border-radius:var(--r8);background:var(--bg2);border:1.5px solid var(--bdr);color:var(--t1);font-size:12px;font-weight:700;cursor:pointer;transition:all var(--ease);padding:0 10px;font-family:var(--f)}
+.sz-btn:hover,.sz-btn.active{border-color:var(--red);color:var(--red);background:rgba(230,36,41,.08)}
+.cl-btn{width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all var(--ease)}
+.cl-btn:hover,.cl-btn.active{transform:scale(1.15);box-shadow:0 0 0 3px rgba(255,255,255,.2)}
+.m-qty{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.m-qty-btn{width:38px;height:38px;border-radius:var(--r8);background:var(--bg2);border:1.5px solid var(--bdr);color:var(--t0);font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--ease);font-family:var(--f)}
+.m-qty-btn:hover{border-color:var(--red);color:var(--red)}
+.m-qty-v{font-size:17px;font-weight:700;min-width:30px;text-align:center}
+.m-desc{font-size:13px;color:var(--t1);line-height:1.7;margin-bottom:20px}
+.m-actions{display:flex;gap:10px;margin-top:auto}
+
+/* ── PRODUCT DETAIL ── */
+.pdl{display:grid;grid-template-columns:1fr 1fr;gap:44px;padding:44px 0}
+.pd-gal-main{aspect-ratio:3/4;border-radius:var(--r16);overflow:hidden;background:var(--bg2);border:1px solid var(--bdr)}
+.pd-gal-img{width:100%;height:100%;object-fit:cover;cursor:zoom-in;transition:transform .4s ease}
+.pd-gal-img:hover{transform:scale(1.04)}
+.pd-thumbs{display:flex;gap:10px;margin-top:12px}
+.pd-thumb{width:68px;height:86px;border-radius:var(--r8);overflow:hidden;border:2px solid var(--bdr);cursor:pointer;transition:border-color var(--ease)}
+.pd-thumb.active,.pd-thumb:hover{border-color:var(--red)}
+.pd-thumb img{width:100%;height:100%;object-fit:cover}
+.pd-title{font-size:26px;font-weight:800;line-height:1.3;margin-bottom:14px}
+.pd-price-big{font-size:30px;font-weight:800}
+.avail-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:5px 12px;border-radius:100px;margin-bottom:20px}
+.avail-badge.in::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.avail-badge.in{background:rgba(34,197,94,.1);color:var(--ok);border:1px solid rgba(34,197,94,.2)}
+.pd-actions{display:flex;gap:10px;margin:20px 0}
+.accord{border-top:1px solid var(--bdr)}
+.acc-item{border-bottom:1px solid var(--bdr)}
+.acc-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0;cursor:pointer;user-select:none}
+.acc-ttl{font-size:14px;font-weight:600}
+.acc-ico{font-size:19px;color:var(--t2);transition:transform var(--ease)}
+.acc-item.open .acc-ico{transform:rotate(45deg);color:var(--red)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease}
+.acc-item.open .acc-body{max-height:400px;padding-bottom:16px}
+.acc-content{font-size:13px;color:var(--t1);line-height:1.8}
+
+/* ── CHECKOUT ── */
+.co-layout{display:grid;grid-template-columns:1fr 360px;gap:28px;padding:36px 0}
+.co-steps{display:flex;align-items:center;gap:7px;margin-bottom:28px}
+.co-step{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:600;color:var(--t2)}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--bg3);border:2px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.co-step.active .step-n{background:var(--red);border-color:var(--red);color:#fff}
+.co-step.done .step-n{background:var(--ok);border-color:var(--ok);color:#fff}
+.co-step.active{color:var(--t0)}
+.co-step.done{color:var(--ok)}
+.step-div{flex:1;height:2px;background:var(--bdr);border-radius:2px}
+.step-div.done{background:var(--ok)}
+.co-panel{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r16);padding:26px}
+.co-panel h2{font-size:19px;font-weight:700;margin-bottom:22px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.ffull{grid-column:1/-1}
+.fg{display:flex;flex-direction:column;gap:5px}
+.flbl{font-size:12px;font-weight:600;color:var(--t1)}
+.fin{background:var(--bg3);border:1.5px solid var(--bdr);border-radius:var(--r8);padding:11px 14px;color:var(--t0);font-size:14px;transition:border-color var(--ease);outline:none;font-family:var(--f)}
+.fin:focus{border-color:var(--red)}
+.fin::placeholder{color:var(--t2)}
+.pay-opts{display:flex;flex-direction:column;gap:10px}
+.pay-opt{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--bg3);border:1.5px solid var(--bdr);border-radius:var(--r12);cursor:pointer;transition:all var(--ease)}
+.pay-opt:hover,.pay-opt.sel{border-color:var(--red);background:rgba(230,36,41,.05)}
+.pay-radio{width:17px;height:17px;border-radius:50%;border:2px solid var(--bdr2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all var(--ease)}
+.pay-opt.sel .pay-radio{border-color:var(--red)}
+.pay-opt.sel .pay-radio::after{content:'';width:7px;height:7px;border-radius:50%;background:var(--red)}
+.pay-ico{font-size:22px}
+.pay-name{font-size:14px;font-weight:600}
+.pay-desc{font-size:11px;color:var(--t2)}
+.demo-notice{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:var(--r8);padding:11px 14px;font-size:12px;color:var(--warn);margin-top:14px;display:flex;gap:8px}
+.co-sum{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r16);padding:22px;position:sticky;top:calc(var(--hh) + 20px)}
+.co-sum h3{font-size:15px;font-weight:700;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--bdr)}
+.co-item{display:flex;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--bdr)}
+.co-item:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.co-item-img{width:52px;height:66px;border-radius:var(--r8);object-fit:cover;background:var(--bg3);flex-shrink:0}
+.co-item-name{font-size:12px;font-weight:600;margin-bottom:3px}
+.co-item-meta{font-size:11px;color:var(--t2)}
+.co-item-price{font-size:13px;font-weight:700;margin-top:auto}
+.co-totals{border-top:1px solid var(--bdr);margin-top:18px;padding-top:14px}
+.co-row{display:flex;justify-content:space-between;font-size:13px;padding:4px 0}
+.co-row .lbl{color:var(--t1)}
+.co-row.grand{font-weight:800;font-size:15px;margin-top:8px;padding-top:8px;border-top:1px solid var(--bdr)}
+.co-sav{color:var(--ok)}
+
+/* ── ORDER SUCCESS ── */
+.ord-success{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:72px 24px}
+.suc-ico{width:76px;height:76px;border-radius:50%;background:rgba(34,197,94,.1);border:2px solid var(--ok);display:flex;align-items:center;justify-content:center;font-size:34px;margin-bottom:22px;animation:spop .5s cubic-bezier(.68,-.55,.265,1.55)}
+@keyframes spop{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+.suc-title{font-size:30px;font-weight:900;margin-bottom:10px}
+.suc-sub{font-size:15px;color:var(--t1);margin-bottom:36px}
+.ord-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r16);padding:26px;max-width:540px;width:100%;margin-bottom:28px;text-align:left}
+.ord-meta{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px}
+.om-lbl{font-size:11px;color:var(--t2);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.om-val{font-size:14px;font-weight:600}
+.track-tl{display:flex;flex-direction:column}
+.trk-step{display:flex;gap:14px}
+.trk-ind{display:flex;flex-direction:column;align-items:center}
+.trk-dot{width:11px;height:11px;border-radius:50%;background:var(--bdr2);border:2px solid var(--bg2);flex-shrink:0;margin-top:2px}
+.trk-step.done .trk-dot{background:var(--ok)}
+.trk-step.active .trk-dot{background:var(--red);box-shadow:0 0 0 4px rgba(230,36,41,.2)}
+.trk-line{flex:1;width:2px;background:var(--bdr);margin:3px 0;min-height:22px}
+.trk-step.done .trk-line{background:var(--ok)}
+.trk-info{padding-bottom:18px}
+.trk-lbl{font-size:13px;font-weight:600}
+.trk-date{font-size:11px;color:var(--t2);margin-top:2px}
+
+/* ── WISHLIST ── */
+.wl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:72px 24px;text-align:center;gap:14px}
+.empty-ico{font-size:60px;opacity:.18}
+.empty-ttl{font-size:19px;font-weight:700;color:var(--t1)}
+.empty-sub{font-size:14px;color:var(--t2);max-width:300px}
+
+/* ── ACCOUNT ── */
+.acct-layout{display:grid;grid-template-columns:220px 1fr;gap:28px;padding:36px 0}
+.acct-sb{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r16);padding:18px;position:sticky;top:calc(var(--hh) + 20px);height:fit-content}
+.acct-prof{display:flex;align-items:center;gap:10px;padding-bottom:18px;margin-bottom:14px;border-bottom:1px solid var(--bdr)}
+.acct-av{width:44px;height:44px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0}
+.acct-name{font-size:14px;font-weight:700}
+.acct-email{font-size:11px;color:var(--t2)}
+.acct-nav{display:flex;align-items:center;gap:9px;padding:11px;border-radius:var(--r8);cursor:pointer;transition:all var(--ease);font-size:13px;font-weight:500;color:var(--t1);margin-bottom:3px}
+.acct-nav:hover,.acct-nav.active{background:var(--bgh);color:var(--t0)}
+.acct-nav.active{color:var(--red)}
+.acct-content{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r16);padding:26px}
+.acct-content h2{font-size:19px;font-weight:700;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--bdr)}
+.ord-card-a{background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r12);padding:18px;margin-bottom:14px}
+.ord-card-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--bdr)}
+.ord-id{font-size:13px;font-weight:700}
+.ord-date{font-size:11px;color:var(--t2)}
+.ord-status{font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px}
+.sts-delivered{background:rgba(34,197,94,.1);color:var(--ok)}
+.sts-shipped{background:rgba(59,130,246,.1);color:#60a5fa}
+.sts-processing{background:rgba(245,158,11,.1);color:var(--warn)}
+
+/* ── TOAST ── */
+#toast-c{position:fixed;bottom:22px;right:22px;z-index:9999;display:flex;flex-direction:column;gap:9px;pointer-events:none}
+.toast{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r12);box-shadow:var(--sh2);min-width:260px;max-width:340px;pointer-events:all;animation:tSlideIn .35s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+@keyframes tSlideIn{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
+.toast.removing{animation:tSlideOut .3s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes tSlideOut{to{transform:translateX(110%);opacity:0}}
+.toast::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+.toast-success::before{background:var(--ok)}
+.toast-error::before{background:var(--red)}
+.toast-info::before{background:#60a5fa}
+.toast-warning::before{background:var(--warn)}
+.t-ico{font-size:18px;flex-shrink:0}
+.t-msg{font-size:13px;font-weight:500;flex:1}
+.t-prog{position:absolute;bottom:0;left:0;height:2px;animation:tProg 3s linear forwards}
+.toast-success .t-prog{background:var(--ok)}
+.toast-error .t-prog{background:var(--red)}
+.toast-info .t-prog{background:#60a5fa}
+.toast-warning .t-prog{background:var(--warn)}
+@keyframes tProg{from{width:100%}to{width:0}}
+
+/* ── 404 ── */
+.p404{min-height:65vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:72px 24px}
+.p404-num{font-size:clamp(72px,14vw,150px);font-weight:900;letter-spacing:-6px;color:var(--bg3);line-height:1;margin-bottom:10px}
+.p404-num .r{color:var(--red)}
+
+/* ── FOOTER ── */
+footer{background:var(--bg1);border-top:1px solid var(--bdr);padding:60px 0 28px;margin-top:72px}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:44px}
+.foot-desc{font-size:13px;color:var(--t2);line-height:1.7;margin:14px 0 20px;max-width:260px}
+.foot-soc{display:flex;gap:9px}
+.soc-btn{width:36px;height:36px;border-radius:var(--r8);background:var(--bg3);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--ease);font-size:15px;color:var(--t2)}
+.soc-btn:hover{background:var(--red);border-color:var(--red);color:#fff}
+.foot-col h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--t0);margin-bottom:18px}
+.foot-links{display:flex;flex-direction:column;gap:10px}
+.foot-lnk{font-size:13px;color:var(--t2);cursor:pointer;transition:color var(--ease)}
+.foot-lnk:hover{color:var(--t0)}
+.foot-btm{border-top:1px solid var(--bdr);padding-top:22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.foot-cr{font-size:12px;color:var(--t2)}
+.foot-disc{font-size:11px;color:var(--t2);max-width:400px;line-height:1.5}
+
+/* ── MOBILE BOTTOM NAV ── */
+#bot-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:900;background:rgba(13,13,13,.97);backdrop-filter:blur(20px);border-top:1px solid var(--bdr);padding:0 8px;padding-bottom:env(safe-area-inset-bottom,0)}
+.bot-inner{display:flex;justify-content:space-around}
+.bnav{display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 12px;cursor:pointer;position:relative;flex:1;color:var(--t2);transition:color var(--ease)}
+.bnav.active{color:var(--red)}
+.bnav:hover{color:var(--t1)}
+.bnav-ico{font-size:21px}
+.bnav-lbl{font-size:10px;font-weight:600;letter-spacing:.2px}
+.bnav-badge{position:absolute;top:7px;right:calc(50% - 19px);background:var(--red);color:#fff;font-size:9px;font-weight:700;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+
+/* ── SCROLL TO TOP ── */
+.scroll-top-btn{
+  position:fixed;bottom:28px;left:28px;z-index:850;width:46px;height:46px;
+  border-radius:50%;background:rgba(18,18,18,.88);backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);border:1.5px solid rgba(255,255,255,.16);
+  color:var(--t0);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .32s cubic-bezier(.16,1,.3,1);
+  opacity:0;transform:translateY(16px) scale(.85);pointer-events:none;
+  box-shadow:0 8px 26px rgba(0,0,0,.6);
+}
+.scroll-top-btn.vis{opacity:1;transform:translateY(0) scale(1);pointer-events:all}
+.scroll-top-btn:hover{
+  background:var(--red);border-color:var(--red);color:#fff;
+  transform:translateY(-3px) scale(1.1);box-shadow:0 0 24px rgba(230,36,41,.65);
+}
+.scroll-top-btn:active{transform:scale(.92)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1200px){
+  .prod-grid{grid-template-columns:repeat(3,1fr)}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .foot-brand{grid-column:1/-1}
+}
+@media(max-width:1024px){
+  .shop-layout{grid-template-columns:1fr}
+  .filter-sb{display:none}
+  .pdl{grid-template-columns:1fr;gap:28px}
+  .co-layout{grid-template-columns:1fr}
+  .acct-layout{grid-template-columns:1fr}
+  .acct-sb{position:relative;top:0}
+  .modal-grid{grid-template-columns:1fr}
+  .modal-main-img{border-radius:var(--r24) var(--r24) 0 0;aspect-ratio:16/10}
+  .hero-container{padding:40px 24px}
+  .hero-c{max-width:480px}
+}
+@media(max-width:768px){
+  :root{--hh:60px}
+  .hdr-nav,.hdr-search{display:none}
+  .ham-btn{display:flex}
+  #bot-nav{display:block}
+  #main{padding-bottom:74px}
+  .hero{min-height:auto;padding-bottom:20px}
+  .hero-container{padding:20px 16px 36px;min-height:auto}
+  .hero-c{padding:22px 18px;border-radius:var(--r16)}
+  .hero-title{letter-spacing:-1px}
+  .hero-btns{flex-direction:column;width:100%;gap:10px}
+  .hero-btns .btn{width:100%;min-height:48px;font-size:13px}
+  .hero-selector{
+    max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;
+    padding:4px 6px;gap:5px;border-radius:16px;scrollbar-width:none;
+  }
+  .hero-selector::-webkit-scrollbar{display:none}
+  .hsel-btn{padding:8px 14px;font-size:11px;white-space:nowrap;flex-shrink:0}
+  .hero-stats{gap:18px;flex-wrap:wrap;justify-content:center}
+  .section{padding:52px 0}
+  .sec-hdr{flex-direction:column;align-items:flex-start;gap:12px}
+  .cat-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .prod-grid{grid-template-columns:repeat(2,1fr);gap:11px}
+  .wl-grid{grid-template-columns:repeat(2,1fr)}
+  .co-layout{gap:20px}
+  .fgrid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  #toast-c{bottom:82px;right:10px;left:10px}
+  .toast{min-width:unset;max-width:100%}
+  .pd-actions{flex-direction:column}
+  .scroll-top-btn{bottom:82px;left:16px;width:40px;height:40px}
+  .atc-btn{min-height:42px}
+  .pwish-btn{opacity:1;transform:scale(1)}
+  .qview-btn{opacity:1;transform:translateY(0);font-size:10px;padding:8px}
+}
+@media(max-width:480px){
+  .container{padding:0 14px}
+  .cat-grid{gap:9px}
+  .prod-grid{gap:9px}
+  .hero-stats{gap:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header id="header" role="banner">
+  <div class="hdr-inner">
+    <div class="logo" onclick="navigate('home')" aria-label="Marvel Shop Home">
+      <div class="marvel-box">MARVEL</div>
+      <div class="logo-shop">SHOP</div>
+    </div>
+    <div class="hdr-search" role="search">
+      <div class="search-wrap">
+        <span class="s-icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <input type="search" class="search-in" id="search-in" placeholder="Search superheroes, collectibles, apparel..." autocomplete="off" aria-label="Search products" aria-expanded="false" aria-controls="search-drop">
+        <button class="s-clear" id="s-clear" aria-label="Clear search">✕</button>
+      </div>
+      <div class="search-drop" id="search-drop" role="listbox" aria-label="Suggestions"></div>
+    </div>
+    <nav class="hdr-nav" aria-label="Main navigation">
+      <span class="nav-lnk" onclick="navigate('home')" data-page="home">Home</span>
+      <span class="nav-lnk" onclick="navigate('shop')" data-page="shop">Shop</span>
+      <span class="nav-lnk" onclick="filterByChar('Spider-Man');navigate('shop')">Spider-Man</span>
+      <span class="nav-lnk" onclick="filterByCat('apparel');navigate('shop')">Apparel</span>
+      <span class="nav-lnk" onclick="filterByCat('collectibles');navigate('shop')">Collectibles</span>
+      <span class="nav-lnk" onclick="filterByCat('accessories');navigate('shop')">Accessories</span>
+      <span class="nav-lnk" onclick="filterNew();navigate('shop')">New Arrivals</span>
+      <span class="nav-lnk" onclick="filterDeals();navigate('shop')">Deals</span>
+    </nav>
+    <div class="hdr-actions">
+      <button class="hbtn" onclick="navigate('account')" aria-label="Account" title="My Account">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+      <button class="hbtn" onclick="navigate('wishlist')" aria-label="Wishlist" title="Wishlist">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="badge" id="wl-badge" style="display:none">0</span>
+      </button>
+      <button class="hbtn" onclick="openCart()" aria-label="Cart" title="Shopping Cart">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="badge" id="cart-badge" style="display:none">0</span>
+      </button>
+      <button class="ham-btn" id="ham-btn" aria-label="Open menu" aria-expanded="false">
+        <span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ══ MOBILE MENU ══ -->
+<div id="mob-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="mob-panel">
+    <span class="mob-lnk" onclick="navigate('home');closeMob()">Home</span>
+    <span class="mob-lnk" onclick="navigate('shop');closeMob()">Shop All</span>
+    <span class="mob-lnk" onclick="filterByChar('Spider-Man');navigate('shop');closeMob()">Spider-Man</span>
+    <span class="mob-lnk" onclick="filterByChar('Iron Man');navigate('shop');closeMob()">Iron Man</span>
+    <span class="mob-lnk" onclick="filterByChar('Captain America');navigate('shop');closeMob()">Captain America</span>
+    <span class="mob-lnk" onclick="filterByChar('Thor');navigate('shop');closeMob()">Thor</span>
+    <span class="mob-lnk" onclick="filterByChar('Hulk');navigate('shop');closeMob()">Hulk</span>
+    <span class="mob-lnk" onclick="filterByCat('apparel');navigate('shop');closeMob()">Apparel</span>
+    <span class="mob-lnk" onclick="filterByCat('collectibles');navigate('shop');closeMob()">Collectibles</span>
+    <span class="mob-lnk" onclick="filterNew();navigate('shop');closeMob()">New Arrivals</span>
+    <span class="mob-lnk" onclick="filterDeals();navigate('shop');closeMob()">Deals</span>
+    <span class="mob-lnk" onclick="navigate('account');closeMob()">My Account</span>
+  </div>
+</div>
+
+<!-- ══ CART OVERLAY + DRAWER ══ -->
+<div id="cart-ov" onclick="closeCart()" aria-hidden="true"></div>
+<aside id="cart-drw" role="complementary" aria-label="Shopping Cart">
+  <div class="cart-hdr">
+    <h2 class="cart-hdr-title">Cart (<span id="cart-count-drw">0</span>)</h2>
+    <button class="cart-x" onclick="closeCart()" aria-label="Close cart">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items-c"></div>
+  <div id="cart-foot"></div>
+</aside>
+
+<!-- ══ QUICK VIEW MODAL ══ -->
+<div id="mod-ov" role="dialog" aria-modal="true" aria-label="Quick View">
+  <div class="modal" id="modal">
+    <button class="modal-x" id="modal-x" aria-label="Close">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- ══ TOAST ══ -->
+<div id="toast-c" role="region" aria-live="polite" aria-label="Notifications"></div>
+
+<!-- ══ MAIN ══ -->
+<main id="main" role="main"><div id="page-c"></div></main>
+
+<!-- ══ BOTTOM NAV ══ -->
+<nav id="bot-nav" aria-label="Mobile navigation">
+  <div class="bot-inner">
+    <div class="bnav" id="bn-home" onclick="navigate('home')" aria-label="Home"><span class="bnav-ico">🏠</span><span class="bnav-lbl">Home</span></div>
+    <div class="bnav" id="bn-shop" onclick="navigate('shop')" aria-label="Shop"><span class="bnav-ico">🛍️</span><span class="bnav-lbl">Shop</span></div>
+    <div class="bnav" id="bn-wl" onclick="navigate('wishlist')" aria-label="Wishlist"><span class="bnav-ico">♡</span><span class="bnav-lbl">Wishlist</span><span class="bnav-badge" id="bn-wl-b" style="display:none">0</span></div>
+    <div class="bnav" id="bn-cart" onclick="openCart()" aria-label="Cart"><span class="bnav-ico">🛒</span><span class="bnav-lbl">Cart</span><span class="bnav-badge" id="bn-cart-b" style="display:none">0</span></div>
+    <div class="bnav" id="bn-acct" onclick="navigate('account')" aria-label="Account"><span class="bnav-ico">👤</span><span class="bnav-lbl">Account</span></div>
+  </div>
+</nav>
+
+<!-- ══ SCROLL TO TOP ══ -->
+<button id="scroll-top-btn" class="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<!-- ══ FOOTER ══ -->
+<footer role="contentinfo">
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo" style="margin-bottom:12px" onclick="navigate('home')" aria-label="Marvel Shop Home">
+          <div class="marvel-box">MARVEL</div>
+          <div class="logo-shop">SHOP</div>
+        </div>
+        <p class="foot-desc">Your premium destination for official Marvel merchandise. Suits not included, but the style definitely is.</p>
+        <div class="foot-soc">
+          <button class="soc-btn" aria-label="Instagram">📷</button>
+          <button class="soc-btn" aria-label="Twitter">🐦</button>
+          <button class="soc-btn" aria-label="Facebook">📘</button>
+          <button class="soc-btn" aria-label="YouTube">▶️</button>
+        </div>
+      </div>
+      <div class="foot-col"><h4>Marvel Shop</h4><div class="foot-links"><span class="foot-lnk">About Us</span><span class="foot-lnk">Contact</span><span class="foot-lnk">Careers</span><span class="foot-lnk">Blog</span></div></div>
+      <div class="foot-col"><h4>Customer Service</h4><div class="foot-links"><span class="foot-lnk" onclick="navigate('account')">Help Center</span><span class="foot-lnk">Shipping Info</span><span class="foot-lnk">Returns</span><span class="foot-lnk" onclick="navigate('account')">Track Order</span></div></div>
+      <div class="foot-col"><h4>Policies</h4><div class="foot-links"><span class="foot-lnk">Privacy Policy</span><span class="foot-lnk">Terms of Service</span><span class="foot-lnk">Refund Policy</span></div></div>
+    </div>
+    <div class="foot-btm">
+      <p class="foot-cr">© 2026 Marvel Shop. All rights reserved.</p>
+      <p class="foot-disc">Marvel characters and trademarks of Marvel Entertainment, LLC. Demo project for educational purposes only.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   PRODUCT DATA — 24 EXCLUSIVE PRODUCTS
+   Every product has a dedicated, authentic image with zero cross-product mixing.
+═══════════════════════════════════════════════════════════ */
+const P=[
+  {id:1,name:"Spider-Man Premium Hoodie",cat:"apparel",char:"Spider-Man",price:1799,orig:2499,disc:28,rating:4.8,reviews:324,img:"imgs/sm_hoodie.jpg",gallery:["imgs/sm_hoodie.jpg"],desc:"Premium quality pullover hoodie featuring iconic Spider-Man web pattern. Made from 80% cotton, 20% polyester blend. Comfortable kangaroo pocket and adjustable drawstring hood.",sizes:["XS","S","M","L","XL","XXL"],colors:["#CC0000","#111111","#FFFFFF"],stock:45,feat:true,newA:false},
+  {id:2,name:"Spider-Man Classic T-Shirt",cat:"apparel",char:"Spider-Man",price:799,orig:1199,disc:33,rating:4.6,reviews:512,img:"imgs/sm_tshirt.jpg",gallery:["imgs/sm_tshirt.jpg"],desc:"Classic Spider-Man graphic tee made from 100% combed cotton. High-resolution print of the iconic Spider-Man suit. Pre-shrunk and machine washable.",sizes:["XS","S","M","L","XL","XXL"],colors:["#CC0000","#111111"],stock:120,feat:false,newA:false},
+  {id:3,name:"Spider-Man Action Figure 12\"",cat:"collectibles",char:"Spider-Man",price:2499,orig:3299,disc:24,rating:4.9,reviews:187,img:"imgs/sm_figure.jpg",gallery:["imgs/sm_figure.jpg"],desc:"Premium 12-inch articulated Spider-Man figure with 30 points of articulation. Includes web accessories, interchangeable hands, and display stand. Collector series.",sizes:["One Size"],colors:["#CC0000"],stock:28,feat:true,newA:false},
+  {id:4,name:"Spider-Man Tech Backpack",cat:"accessories",char:"Spider-Man",price:1299,orig:1899,disc:32,rating:4.5,reviews:93,img:"imgs/sm_backpack.jpg",gallery:["imgs/sm_backpack.jpg"],desc:"Spacious 25L Spider-Man backpack with padded laptop compartment (fits 15\" laptops), multiple organizer pockets, and web-pattern embossing. Durable water-resistant exterior.",sizes:["One Size"],colors:["#CC0000","#111111"],stock:62,feat:false,newA:true},
+  {id:5,name:"Spider-Man No Way Home Art Print",cat:"collectibles",char:"Spider-Man",price:599,orig:899,disc:33,rating:4.9,reviews:142,img:"imgs/char_spiderman.jpg",gallery:["imgs/char_spiderman.jpg"],desc:"Official museum-grade Spider-Man theatrical art poster. Printed on 300gsm heavy matte art paper with vivid UV-resistant inks. Perfect for framing and display.",sizes:["A3","A2","60x90cm"],colors:[],stock:150,feat:false,newA:false},
+
+  {id:6,name:"Iron Man MK50 Helmet Replica",cat:"collectibles",char:"Iron Man",price:8999,orig:12999,disc:31,rating:4.9,reviews:56,img:"imgs/im_helmet.jpg",gallery:["imgs/im_helmet.jpg"],desc:"Premium 1:1 scale Iron Man MK50 helmet replica with light-up arc reactor eyes. Die-cast aluminum finish with metallic coating. LED lighting system and display base included.",sizes:["One Size"],colors:["#C9A227","#CC0000"],stock:12,feat:true,newA:false},
+  {id:7,name:"Iron Man Arc Reactor T-Shirt",cat:"apparel",char:"Iron Man",price:899,orig:1299,disc:31,rating:4.4,reviews:278,img:"imgs/im_tshirt.jpg",gallery:["imgs/im_tshirt.jpg"],desc:"Stylish Iron Man T-shirt with glow-in-the-dark arc reactor chest print. 100% combed cotton, pre-shrunk. Machine washable.",sizes:["XS","S","M","L","XL","XXL"],colors:["#111111","#1a1a1a"],stock:98,feat:false,newA:false},
+  {id:8,name:"Iron Man Stark Chronograph Watch",cat:"accessories",char:"Iron Man",price:4999,orig:6999,disc:29,rating:4.7,reviews:44,img:"imgs/im_watch.jpg",gallery:["imgs/im_watch.jpg"],desc:"Stark Industries edition quartz chronograph watch with iconic red and gold color scheme. Stainless steel case, sapphire crystal glass, 5ATM water resistance. Includes collector gift box.",sizes:["One Size"],colors:["#C9A227","#CC0000"],stock:18,feat:true,newA:false},
+  {id:9,name:"Iron Man Mark LXXXV Theatrical Art Print",cat:"collectibles",char:"Iron Man",price:649,orig:999,disc:35,rating:4.8,reviews:118,img:"imgs/char_ironman.jpg",gallery:["imgs/char_ironman.jpg"],desc:"High-definition collector art print of Tony Stark in the Mark LXXXV armor. Printed on archival 280gsm textured fine art paper with metallic foil accents.",sizes:["A3","A2","60x90cm"],colors:[],stock:95,feat:false,newA:true},
+
+  {id:10,name:"Captain America Shield Replica",cat:"collectibles",char:"Captain America",price:5999,orig:8499,disc:29,rating:4.8,reviews:74,img:"imgs/ca_shield.jpg",gallery:["imgs/ca_shield.jpg"],desc:"Full-size 60cm diameter Captain America vibranium-style shield replica. Dense impact-resistant construction with authentic dual leather arm straps and lustrous metallic finish.",sizes:["One Size"],colors:["#4a90d9","#CC0000"],stock:22,feat:true,newA:false},
+  {id:11,name:"Captain America Star Hoodie",cat:"apparel",char:"Captain America",price:1999,orig:2799,disc:29,rating:4.7,reviews:201,img:"imgs/ca_hoodie.jpg",gallery:["imgs/ca_hoodie.jpg"],desc:"Premium Captain America hoodie with embroidered star emblem. Heavyweight 400gsm fleece with zip utility pockets and drawcord hood. I can do this all day.",sizes:["XS","S","M","L","XL","XXL"],colors:["#001a3e","#4a90d9"],stock:55,feat:false,newA:true},
+  {id:12,name:"Captain America The First Avenger Poster",cat:"collectibles",char:"Captain America",price:549,orig:799,disc:31,rating:4.7,reviews:88,img:"imgs/char_captainamerica.jpg",gallery:["imgs/char_captainamerica.jpg"],desc:"Iconic cinematic Captain America theatrical poster print. High-resolution lithograph print on satin gloss art paper. Official Marvel licensed merchandise.",sizes:["A3","A2","60x90cm"],colors:[],stock:110,feat:false,newA:false},
+
+  {id:13,name:"Mjolnir Hammer Replica",cat:"collectibles",char:"Thor",price:1499,orig:2199,disc:32,rating:4.6,reviews:89,img:"imgs/thor_mjolnir.jpg",gallery:["imgs/thor_mjolnir.jpg"],desc:"Screen-accurate Mjolnir hammer replica with Norse rune carvings. High-density collector grade foam with weathered metal effect and genuine leather-wrapped handle.",sizes:["One Size"],colors:["#888888"],stock:41,feat:true,newA:false},
+  {id:14,name:"Thor God of Thunder Hoodie",cat:"apparel",char:"Thor",price:2199,orig:2999,disc:27,rating:4.7,reviews:167,img:"imgs/thor_hoodie.jpg",gallery:["imgs/thor_hoodie.jpg"],desc:"Worthy heavyweight hoodie featuring Asgardian rune circle and Thor hammer motif. Heavy 450gsm brushed fleece interior for ultimate warmth and comfort.",sizes:["XS","S","M","L","XL","XXL"],colors:["#1a1a1a","#2c2c2c"],stock:47,feat:false,newA:true},
+  {id:15,name:"Thor Love & Thunder Art Poster",cat:"collectibles",char:"Thor",price:549,orig:799,disc:31,rating:4.6,reviews:62,img:"imgs/char_thor.jpg",gallery:["imgs/char_thor.jpg"],desc:"Stunning cinematic Thor art print depicting the Odinson summoning lightning. Vibrant high-gamut giclée print on 250gsm premium satin paper.",sizes:["A3","A2","60x90cm"],colors:[],stock:80,feat:false,newA:false},
+
+  {id:16,name:"Hulk Gamma Smash Art Print",cat:"collectibles",char:"Hulk",price:599,orig:899,disc:33,rating:4.8,reviews:104,img:"imgs/char_hulk.jpg",gallery:["imgs/char_hulk.jpg"],desc:"Dynamic cinematic art print of The Incredible Hulk unleashing devastating gamma power. Museum-quality reproduction on archival matte art stock.",sizes:["A3","A2","60x90cm"],colors:[],stock:75,feat:true,newA:false},
+
+  {id:17,name:"Avengers Assemble Premium Hoodie",cat:"apparel",char:"Avengers",price:2299,orig:3199,disc:28,rating:4.9,reviews:445,img:"imgs/av_hoodie.jpg",gallery:["imgs/av_hoodie.jpg"],desc:"Premium heavyweight Avengers team hoodie. Features large chest Avengers 'A' logo embroidered in metallic thread. Earth's Mightiest comfort and style.",sizes:["XS","S","M","L","XL","XXL","3XL"],colors:["#111111","#1a1a1a"],stock:89,feat:true,newA:false},
+  {id:18,name:"Avengers 2026 Theatrical Landscape Banner",cat:"collectibles",char:"Avengers",price:1499,orig:2199,disc:32,rating:4.9,reviews:215,img:"imgs/hero_avengers.jpg",gallery:["imgs/hero_avengers.jpg"],desc:"Epic panoramic cinematic Avengers banner art print featuring Iron Man, Thor, Cap, Hulk, and the entire heroic roster. Ultra-wide display format on canvas-weave poly.",sizes:["120x50cm","160x65cm","200x80cm"],colors:[],stock:35,feat:true,newA:true},
+  {id:19,name:"Avengers Earth's Mightiest Heroes Poster",cat:"collectibles",char:"Avengers",price:699,orig:999,disc:30,rating:4.8,reviews:189,img:"imgs/char_avengers.jpg",gallery:["imgs/char_avengers.jpg"],desc:"Masterwork vertical art poster showcasing Earth's Mightiest Heroes assembled in full cinematic glory. Deep rich contrast and gold metallic border accents.",sizes:["A3","A2","60x90cm"],colors:[],stock:120,feat:false,newA:false},
+  {id:20,name:"Avengers Doomsday 9:16 Vertical Art Poster",cat:"collectibles",char:"Avengers",price:799,orig:1199,disc:33,rating:4.9,reviews:92,img:"imgs/hero_avengers_9_16.jpg",gallery:["imgs/hero_avengers_9_16.jpg"],desc:"Special edition 9:16 cinematic poster of the Avengers assemble lineup. High-definition collector print with anti-glare finish.",sizes:["A3","A2","60x90cm"],colors:[],stock:65,feat:false,newA:true},
+
+  {id:21,name:"Black Panther Wakanda Forever Poster",cat:"collectibles",char:"Black Panther",price:649,orig:949,disc:32,rating:4.9,reviews:178,img:"imgs/char_blackpanther.jpg",gallery:["imgs/char_blackpanther.jpg"],desc:"Regal Black Panther cinematic art print featuring King T'Challa in the vibranium suit. Deep purple ambient lighting on premium 300gsm heavy art stock.",sizes:["A3","A2","60x90cm"],colors:[],stock:85,feat:true,newA:false},
+
+  {id:22,name:"Guardians of the Galaxy Art Print",cat:"collectibles",char:"Guardians",price:599,orig:899,disc:33,rating:4.7,reviews:153,img:"imgs/char_guardians.jpg",gallery:["imgs/char_guardians.jpg"],desc:"Retro-cosmic art print featuring Star-Lord, Groot, Rocket, and the cosmic team. Vibrant psychedelic space palette printed with archival pigments.",sizes:["A3","A2","60x90cm"],colors:[],stock:70,feat:false,newA:false},
+
+  {id:23,name:"Loki God of Stories Theatrical Art Print",cat:"collectibles",char:"Loki",price:699,orig:999,disc:30,rating:4.9,reviews:210,img:"imgs/hero_loki.jpg",gallery:["imgs/hero_loki.jpg"],desc:"Breathtaking theatrical print of Loki as the God of Stories holding the timelines of the multiverse together. Premium metallic emerald accents on velvet-touch stock.",sizes:["A3","A2","60x90cm"],colors:[],stock:48,feat:true,newA:true},
+
+  {id:24,name:"Moon Knight Fist of Khonshu Art Poster",cat:"collectibles",char:"Moon Knight",price:649,orig:949,disc:32,rating:4.8,reviews:125,img:"imgs/hero_moonknight.jpg",gallery:["imgs/hero_moonknight.jpg"],desc:"High-contrast cinematic poster of Moon Knight in his ceremonial Khonshu armor under the full moon. Archival silver-ink reproduction on premium heavy cardstock.",sizes:["A3","A2","60x90cm"],colors:[],stock:52,feat:false,newA:true}
+];
+
+/* ═══════════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════════ */
+let S={
+  page:'home', cart:[], wishlist:[],
+  filters:{chars:[],cats:[],minP:0,maxP:15000,minR:0,disc:0,newA:false,q:''},
+  sort:'recommended', coStep:1, lastOrder:null,
+  recentQ:[], viewed:[]
+};
+const POPULAR_Q=["Spider-Man Hoodie","Iron Man Helmet","Captain America Shield","Avengers Hoodie","Mjolnir Hammer","Loki Poster"];
+
+/* ═══════════════════════════════════════════════════════════
+   LOCAL STORAGE
+═══════════════════════════════════════════════════════════ */
+function saveCart(){localStorage.setItem('mvl_cart',JSON.stringify(S.cart))}
+function loadCart(){try{S.cart=JSON.parse(localStorage.getItem('mvl_cart')||'[]')}catch{S.cart=[]}}
+function saveWL(){localStorage.setItem('mvl_wl',JSON.stringify(S.wishlist))}
+function loadWL(){try{S.wishlist=JSON.parse(localStorage.getItem('mvl_wl')||'[]')}catch{S.wishlist=[]}}
+function saveQ(){localStorage.setItem('mvl_q',JSON.stringify(S.recentQ))}
+function loadQ(){try{S.recentQ=JSON.parse(localStorage.getItem('mvl_q')||'[]')}catch{S.recentQ=[]}}
+function saveViewed(){localStorage.setItem('mvl_v',JSON.stringify(S.viewed))}
+function loadViewed(){try{S.viewed=JSON.parse(localStorage.getItem('mvl_v')||'[]')}catch{S.viewed=[]}}
+
+/* ═══════════════════════════════════════════════════════════
+   CART FUNCTIONS
+═══════════════════════════════════════════════════════════ */
+function addToCart(id,size,color,qty=1,cb){
+  const pr=P.find(p=>p.id===id); if(!pr)return;
+  const idx=S.cart.findIndex(i=>i.id===id&&i.size===size&&i.color===color);
+  if(idx>=0)S.cart[idx].qty+=qty;
+  else S.cart.push({id,size:size||(pr.sizes[0]||'One Size'),color:color||(pr.colors[0]||''),qty,name:pr.name,price:pr.price,img:pr.img,char:pr.char});
+  saveCart(); updateCartBadge(); updateCartUI();
+  showToast(pr.name+' added to cart ✓','success');
+  if(cb)cb();
+}
+function removeFromCart(id,size,color){
+  S.cart=S.cart.filter(i=>!(i.id===id&&i.size===size&&i.color===color));
+  saveCart(); updateCartBadge(); updateCartUI();
+  showToast('Removed from cart','info');
+}
+function incQty(id,size,color){const i=S.cart.find(x=>x.id===id&&x.size===size&&x.color===color);if(i){i.qty++;saveCart();updateCartBadge();updateCartUI()}}
+function decQty(id,size,color){
+  const i=S.cart.find(x=>x.id===id&&x.size===size&&x.color===color);
+  if(i){if(i.qty<=1){removeFromCart(id,size,color);return}i.qty--;saveCart();updateCartBadge();updateCartUI()}
+}
+function calcSub(){return S.cart.reduce((s,i)=>s+i.price*i.qty,0)}
+function calcDisc(){return S.cart.reduce((s,i)=>{const pr=P.find(p=>p.id===i.id);return pr?s+(pr.orig-pr.price)*i.qty:s},0)}
+function calcDel(){return calcSub()>999?0:49}
+function calcTotal(){return calcSub()+calcDel()}
+function cartCount(){return S.cart.reduce((s,i)=>s+i.qty,0)}
+
+function updateCartBadge(){
+  const n=cartCount();
+  ['cart-badge','bn-cart-b'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    el.textContent=n; el.style.display=n>0?'flex':'none';
+    if(id==='cart-badge'&&n>0){el.classList.add('pop');setTimeout(()=>el.classList.remove('pop'),400)}
+  });
+  const d=document.getElementById('cart-count-drw');
+  if(d)d.textContent=n;
+}
+function updateWLBadge(){
+  const n=S.wishlist.length;
+  ['wl-badge','bn-wl-b'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    el.textContent=n; el.style.display=n>0?'flex':'none';
+  });
+}
+function updateCartUI(){
+  const c=document.getElementById('cart-items-c'),f=document.getElementById('cart-foot');
+  if(!c||!f)return;
+  if(!S.cart.length){
+    c.innerHTML=`<div class="cart-empty-s"><div class="cart-empty-ico">🛒</div><div style="font-size:15px;font-weight:600;color:var(--t1)">Your cart is waiting for its next hero.</div><div style="font-size:13px;color:var(--t2)">Add some Marvel merchandise!</div><button class="btn btn-primary" style="margin-top:14px" onclick="closeCart();navigate('shop')">START SHOPPING</button></div>`;
+    f.innerHTML=''; return;
+  }
+  c.innerHTML=S.cart.map(i=>`
+    <div class="citem">
+      <img src="${i.img}" alt="${i.name}" class="citem-img" loading="lazy">
+      <div class="citem-info">
+        <div class="citem-name">${i.name}</div>
+        <div class="citem-meta">${i.size?i.size+' · ':''}${i.char}</div>
+        <div class="citem-price">₹${i.price.toLocaleString()}</div>
+        <div class="citem-ctrl">
+          <button class="qty-btn" onclick="decQty(${i.id},'${i.size}','${i.color}')" aria-label="Decrease">−</button>
+          <span class="qty-v">${i.qty}</span>
+          <button class="qty-btn" onclick="incQty(${i.id},'${i.size}','${i.color}')" aria-label="Increase">+</button>
+          <button class="citem-rm" onclick="removeFromCart(${i.id},'${i.size}','${i.color}')">Remove</button>
+        </div>
+      </div>
+    </div>`).join('');
+  const sub=calcSub(),disc=calcDisc(),del=calcDel(),tot=calcTotal();
+  f.innerHTML=`
+    <div class="cart-sum">
+      <div class="cart-row"><span class="cart-lbl">Subtotal (${cartCount()} items)</span><span>₹${sub.toLocaleString()}</span></div>
+      <div class="cart-row"><span class="cart-lbl">Savings</span><span class="cart-disc">−₹${disc.toLocaleString()}</span></div>
+      <div class="cart-row"><span class="cart-lbl">Delivery</span><span>${del===0?'<span style="color:var(--ok)">FREE</span>':'₹'+del}</span></div>
+      <div class="cart-row total"><span class="cart-lbl">Total</span><span>₹${tot.toLocaleString()}</span></div>
+    </div>
+    <div class="cart-actions">
+      <button class="btn btn-primary btn-full" onclick="closeCart();navigate('checkout')">CHECKOUT →</button>
+      <button class="btn btn-ghost btn-full" onclick="closeCart()">CONTINUE SHOPPING</button>
+    </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   WISHLIST
+═══════════════════════════════════════════════════════════ */
+function toggleWL(id){
+  const pr=P.find(p=>p.id===id); if(!pr)return;
+  const i=S.wishlist.indexOf(id);
+  if(i>=0){S.wishlist.splice(i,1);showToast('Removed from wishlist','info')}
+  else{S.wishlist.push(id);showToast(pr.name+' added to wishlist ♥','success')}
+  saveWL(); updateWLBadge();
+  document.querySelectorAll('[data-wl="'+id+'"]').forEach(b=>{
+    const on=S.wishlist.includes(id);
+    b.classList.toggle('active',on);
+    b.setAttribute('aria-pressed',on);
+    b.textContent=on?'♥':'♡';
+  });
+  if(S.page==='wishlist')renderPage('wishlist');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FILTER / SORT
+═══════════════════════════════════════════════════════════ */
+function getFiltered(){
+  let ps=[...P];
+  if(S.filters.q){const q=S.filters.q.toLowerCase();ps=ps.filter(p=>p.name.toLowerCase().includes(q)||p.char.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q))}
+  if(S.filters.chars.length)ps=ps.filter(p=>S.filters.chars.includes(p.char));
+  if(S.filters.cats.length)ps=ps.filter(p=>S.filters.cats.includes(p.cat));
+  ps=ps.filter(p=>p.price>=S.filters.minP&&p.price<=S.filters.maxP);
+  if(S.filters.minR>0)ps=ps.filter(p=>p.rating>=S.filters.minR);
+  if(S.filters.disc>0)ps=ps.filter(p=>p.disc>=S.filters.disc);
+  if(S.filters.newA)ps=ps.filter(p=>p.newA);
+  switch(S.sort){
+    case'popular':ps.sort((a,b)=>b.reviews-a.reviews);break;
+    case'newest':ps.sort((a,b)=>b.id-a.id);break;
+    case'price-asc':ps.sort((a,b)=>a.price-b.price);break;
+    case'price-desc':ps.sort((a,b)=>b.price-a.price);break;
+    case'rating':ps.sort((a,b)=>b.rating-a.rating);break;
+    case'discount':ps.sort((a,b)=>b.disc-a.disc);break;
+    default:ps.sort((a,b)=>(b.feat?1:0)-(a.feat?1:0));break;
+  }
+  return ps;
+}
+function filterByChar(c){S.filters.chars=[c];S.filters.cats=[];S.filters.newA=false;S.filters.disc=0;S.filters.q=''}
+function filterByCat(c){S.filters.cats=[c];S.filters.chars=[];S.filters.newA=false;S.filters.disc=0;S.filters.q=''}
+function filterNew(){S.filters.newA=true;S.filters.chars=[];S.filters.cats=[];S.filters.disc=0;S.filters.q=''}
+function filterDeals(){S.filters.disc=30;S.filters.chars=[];S.filters.cats=[];S.filters.newA=false;S.filters.q=''}
+function clearFilters(){S.filters={chars:[],cats:[],minP:0,maxP:15000,minR:0,disc:0,newA:false,q:''};if(S.page==='shop')renderPage('shop')}
+
+/* ═══════════════════════════════════════════════════════════
+   SEARCH (DEBOUNCED)
+═══════════════════════════════════════════════════════════ */
+function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}}
+function addRecentQ(q){if(!q)return;S.recentQ=[q,...S.recentQ.filter(s=>s!==q)].slice(0,5);saveQ()}
+function showDrop(q){
+  const drop=document.getElementById('search-drop');if(!drop)return;
+  let html='';
+  if(!q){
+    if(S.recentQ.length){html+=`<div class="sdrop-ttl">Recent Searches</div>`;S.recentQ.slice(0,3).forEach(s=>{html+=`<div class="sdrop-item" onclick="execSearch('${s.replace(/'/g,"\\'")}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>${s}</div>`})}
+    html+=`<div class="sdrop-ttl">Popular</div>`;
+    POPULAR_Q.slice(0,4).forEach(s=>{html+=`<div class="sdrop-item" onclick="execSearch('${s.replace(/'/g,"\\'")}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>${s}</div>`});
+  } else {
+    const res=P.filter(p=>p.name.toLowerCase().includes(q.toLowerCase())||p.char.toLowerCase().includes(q.toLowerCase())||p.cat.toLowerCase().includes(q.toLowerCase())).slice(0,6);
+    if(!res.length)html=`<div class="sdrop-item" style="color:var(--t2)">No results for "${q}"</div>`;
+    else{html='<div class="sdrop-ttl">Products</div>';res.forEach(p=>{html+=`<div class="sdrop-item" onclick="execSearch('${p.name.replace(/'/g,"\\'")}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>${p.name}</span><span style="margin-left:auto;font-size:10px;color:var(--t2)">${p.char}</span></div>`})}
+  }
+  drop.innerHTML=html; drop.classList.add('open');
+}
+function hideDrop(){document.getElementById('search-drop')?.classList.remove('open')}
+function execSearch(q){
+  const inp=document.getElementById('search-in');
+  if(inp){inp.value=q;const cl=document.getElementById('s-clear');if(cl)cl.classList.toggle('vis',!!q)}
+  addRecentQ(q); S.filters.q=q; hideDrop(); navigate('shop');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════════════ */
+function showToast(msg,type='success'){
+  const c=document.getElementById('toast-c');if(!c)return;
+  const ico={success:'✓',error:'✕',info:'ℹ',warning:'⚠'}[type]||'✓';
+  const t=document.createElement('div');
+  t.className=`toast toast-${type}`;t.setAttribute('role','alert');
+  t.innerHTML=`<span class="t-ico">${ico}</span><span class="t-msg">${msg}</span><div class="t-prog"></div>`;
+  c.appendChild(t);
+  setTimeout(()=>{t.classList.add('removing');setTimeout(()=>t.parentNode&&t.parentNode.removeChild(t),300)},3000);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MODAL (QUICK VIEW)
+═══════════════════════════════════════════════════════════ */
+let mQty=1,mSize='',mColor='',mId=null;
+function openQV(id){
+  const pr=P.find(p=>p.id===id);if(!pr)return;
+  mId=id;mQty=1;mSize=pr.sizes[0]||'';mColor=pr.colors[0]||'';
+  const ov=document.getElementById('mod-ov'),mc=document.getElementById('modal-content');
+  mc.innerHTML=`
+    <div class="modal-grid">
+      <div class="modal-gal">
+        <img src="${(pr.gallery&&pr.gallery[0])||pr.img}" alt="${pr.name}" class="modal-main-img" id="m-main-img">
+        ${pr.gallery && pr.gallery.length > 1 ? `<div class="modal-thumbs">${pr.gallery.map((g,i)=>`<img src="${g}" alt="View ${i+1}" class="m-thumb${i===0?' active':''}" onclick="mSwitch('${g}',this)" loading="lazy">`).join('')}</div>` : ''}
+      </div>
+      <div class="modal-info">
+        <div class="m-char">${pr.char}</div>
+        <h2 class="m-title">${pr.name}</h2>
+        <div class="m-rating"><div class="stars">${stars(pr.rating)}</div><span class="rval">${pr.rating}</span><span class="rcnt">(${pr.reviews.toLocaleString()})</span></div>
+        <div class="m-price-big">₹${pr.price.toLocaleString()}</div>
+        <div class="m-price-row"><span class="m-old">₹${pr.orig.toLocaleString()}</span><span class="m-disc">${pr.disc}% OFF</span></div>
+        ${pr.sizes.length>1?`<div class="m-sec-ttl">Size</div><div class="sz-opts">${pr.sizes.map(s=>`<button class="sz-btn${s===mSize?' active':''}" onclick="mSelSize('${s}',this)">${s}</button>`).join('')}</div>`:''}
+        ${pr.colors.length?`<div class="m-sec-ttl">Color</div><div class="cl-opts">${pr.colors.map(c=>`<button class="cl-btn${c===mColor?' active':''}" style="background:${c}" onclick="mSelColor('${c}',this)" aria-label="Color ${c}"></button>`).join('')}</div>`:''}
+        <div class="m-sec-ttl">Quantity</div>
+        <div class="m-qty">
+          <button class="m-qty-btn" onclick="mChgQty(-1)">−</button>
+          <span class="m-qty-v" id="m-qty-v">1</span>
+          <button class="m-qty-btn" onclick="mChgQty(1)">+</button>
+        </div>
+        <p class="m-desc">${pr.desc}</p>
+        <div class="m-actions">
+          <button class="btn btn-primary" style="flex:1" onclick="mAddToCart()">ADD TO CART</button>
+          <button class="btn btn-outline" style="flex:1" onclick="mBuyNow()">BUY NOW</button>
+        </div>
+      </div>
+    </div>`;
+  ov.classList.add('open');document.body.style.overflow='hidden';
+}
+function closeModal(){document.getElementById('mod-ov')?.classList.remove('open');document.body.style.overflow=''}
+function mSwitch(src,el){const img=document.getElementById('m-main-img');if(img)img.src=src;document.querySelectorAll('.m-thumb').forEach(t=>t.classList.remove('active'));el?.classList.add('active')}
+function mSelSize(s,el){mSize=s;document.querySelectorAll('.sz-btn').forEach(b=>b.classList.remove('active'));el?.classList.add('active')}
+function mSelColor(c,el){mColor=c;document.querySelectorAll('.cl-btn').forEach(b=>b.classList.remove('active'));el?.classList.add('active')}
+function mChgQty(d){mQty=Math.max(1,Math.min(10,mQty+d));const el=document.getElementById('m-qty-v');if(el)el.textContent=mQty}
+function mAddToCart(){if(mId)addToCart(mId,mSize,mColor,mQty)}
+function mBuyNow(){if(mId)addToCart(mId,mSize,mColor,mQty,()=>{closeModal();navigate('checkout')})}
+
+/* ═══════════════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════════════ */
+function stars(r){return[1,2,3,4,5].map(i=>i<=Math.round(r)?'★':'☆').join('')}
+function fp(n){return'₹'+n.toLocaleString('en-IN')}
+
+function pCard(pr,extra=''){
+  const wl=S.wishlist.includes(pr.id);
+  return`<article class="pcard reveal ${extra}" data-id="${pr.id}">
+    <div class="pcard-img-wrap">
+      <img src="${pr.img}" alt="${pr.name}" class="pcard-img" loading="lazy" onclick="navigate('product-${pr.id}')">
+      <div class="pbadges">
+        ${pr.disc>=30?`<span class="ptag ptag-sale">${pr.disc}% OFF</span>`:''}
+        ${pr.newA?`<span class="ptag ptag-new">NEW</span>`:''}
+        ${pr.feat&&!pr.newA?`<span class="ptag ptag-hot">HOT</span>`:''}
+      </div>
+      <button class="pwish-btn${wl?' active':''}" data-wl="${pr.id}" onclick="event.stopPropagation();toggleWL(${pr.id})" aria-label="${wl?'Remove from':'Add to'} wishlist" aria-pressed="${wl}">${wl?'♥':'♡'}</button>
+      <button class="qview-btn" onclick="event.stopPropagation();openQV(${pr.id})" aria-label="Quick view ${pr.name}">QUICK VIEW</button>
+    </div>
+    <div class="pcard-info" onclick="navigate('product-${pr.id}')">
+      <div class="pchar">${pr.char}</div>
+      <h3 class="pname">${pr.name}</h3>
+      <div class="prating"><div class="stars">${stars(pr.rating)}</div><span class="rval">${pr.rating}</span><span class="rcnt">(${pr.reviews.toLocaleString()})</span></div>
+      <div class="ppricing"><span class="pprice">${fp(pr.price)}</span><span class="pold">${fp(pr.orig)}</span><span class="poff">${pr.disc}% off</span></div>
+    </div>
+    <div style="padding:0 14px 14px">
+      <button class="atc-btn" onclick="handleATC(event,${pr.id})" data-pid="${pr.id}" aria-label="Add ${pr.name} to cart">ADD TO CART</button>
+    </div>
+  </article>`;
+}
+
+function handleATC(e,id){
+  e.stopPropagation();
+  const btn=e.currentTarget, pr=P.find(p=>p.id===id);if(!pr)return;
+  btn.textContent='ADDING...';btn.classList.add('adding');
+  setTimeout(()=>{
+    addToCart(id,pr.sizes[0]||'One Size',pr.colors[0]||'');
+    btn.textContent='ADDED ✓';btn.classList.remove('adding');btn.classList.add('added');
+    setTimeout(()=>{btn.textContent='ADD TO CART';btn.classList.remove('added')},2000);
+  },600);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REVEAL OBSERVER
+═══════════════════════════════════════════════════════════ */
+let obs;
+function setupObs(){
+  if(obs)obs.disconnect();
+  obs=new IntersectionObserver((entries)=>{
+    entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('vis'),i*55);obs.unobserve(e.target)}});
+  },{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ROUTER
+═══════════════════════════════════════════════════════════ */
+function navigate(pg){
+  S.page=pg;
+  window.location.hash=pg;
+  renderPage(pg);
+  window.scrollTo({top:0,behavior:'smooth'});
+  updateNavActive(pg);
+  updateBotNav(pg);
+}
+function updateNavActive(pg){
+  document.querySelectorAll('.nav-lnk').forEach(l=>l.classList.toggle('active',l.getAttribute('data-page')===pg));
+  document.querySelectorAll('.mob-lnk').forEach(l=>l.classList.remove('active'));
+}
+function updateBotNav(pg){
+  const base=pg.split('-')[0];
+  document.querySelectorAll('.bnav').forEach(b=>b.classList.remove('active'));
+  const map={home:'bn-home',shop:'bn-shop',wishlist:'bn-wl',account:'bn-acct'};
+  const el=map[base];if(el)document.getElementById(el)?.classList.add('active');
+}
+
+function renderPage(pg){
+  const c=document.getElementById('page-c');if(!c)return;
+  c.innerHTML='';c.className='page';
+  if(pg.startsWith('product-')){const id=parseInt(pg.split('-')[1]);c.innerHTML=renderDetail(id)}
+  else{
+    const fn={home:renderHome,shop:renderShop,wishlist:renderWishlist,checkout:renderCheckout,'order-success':renderSuccess,account:renderAccount};
+    c.innerHTML=(fn[pg]||render404)();
+  }
+  setTimeout(()=>{
+    setupObs();
+    if(pg==='home')setupHeroEffects();
+    if(pg==='shop')setupShop();
+    if(pg==='checkout')S.coStep=1;
+    if(pg==='account')setupAcct();
+  },80);
+}
+
+function setupHeroEffects(){
+  const hero=document.querySelector('.hero');if(!hero)return;
+  const onMove=(e)=>{
+    const r=hero.getBoundingClientRect();
+    const x=((e.clientX-r.left)/r.width-0.5)*20;
+    const y=((e.clientY-r.top)/r.height-0.5)*14;
+    hero.style.setProperty('--hx',`${-x.toFixed(1)}px`);
+    hero.style.setProperty('--hy',`${-y.toFixed(1)}px`);
+  };
+  hero.removeEventListener('mousemove',hero._onMove);
+  hero._onMove=onMove;
+  hero.addEventListener('mousemove',onMove);
+  hero.addEventListener('mouseleave',()=>{
+    hero.style.setProperty('--hx','0px');
+    hero.style.setProperty('--hy','0px');
+  });
+  hero.addEventListener('mouseenter',()=>clearInterval(heroTimer));
+  hero.addEventListener('mouseleave',()=>startHeroTimer());
+  startHeroTimer();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HERO SLIDER DATA & LOGIC
+═══════════════════════════════════════════════════════════ */
+const HERO_SLIDES=[
+  {
+    id:'avengers',
+    name:'Avengers',
+    icon:'⭐',
+    tag:'Marvel Cinematic Universe • New Avengers',
+    title:'ASSEMBLE<br>THE <span class="acc-shimmer">NEW AVENGERS</span>',
+    sub:'Earth’s mightiest heroes unite against the multiverse. Discover screen-accurate replicas, premium hero apparel, and exclusive collector artifacts for true believers.',
+    btn:'EXPLORE NEW AVENGERS',
+    filter:'Avengers',
+    isCat:false
+  },
+  {
+    id:'spiderman',
+    name:'Spider-Man',
+    icon:'🕷️',
+    tag:'Friendly Neighborhood Merch',
+    title:'SWING INTO<br><span class="acc-shimmer" style="background:linear-gradient(90deg,#ff3344,#3399ff,#ff3344);-webkit-background-clip:text;-webkit-text-fill-color:transparent">ACTION</span>',
+    sub:'Official suits, hoodies, collectible figures, and web-slinger backpacks engineered for true heroes.',
+    btn:'SHOP SPIDER-MAN',
+    filter:'Spider-Man',
+    isCat:false
+  },
+  {
+    id:'loki',
+    name:'Loki',
+    icon:'👑',
+    tag:'God of Stories & Mischief',
+    title:'BURDENED WITH<br><span class="acc-shimmer" style="background:linear-gradient(90deg,#00cc66,#C9A227,#00cc66);-webkit-background-clip:text;-webkit-text-fill-color:transparent">GLORIOUS PURPOSE</span>',
+    sub:'Asgardian royal apparel, TVA artifacts, gold chronograph timepieces, and collector armor from across timelines.',
+    btn:'EXPLORE LOKI VAULT',
+    filter:'Thor',
+    isCat:false
+  },
+  {
+    id:'moonknight',
+    name:'Moon Knight',
+    icon:'🌙',
+    tag:'Fist of Khonshu',
+    title:'SUMMON<br>THE <span class="acc-shimmer" style="background:linear-gradient(90deg,#ffffff,#90e0ef,#ffffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent">SUIT</span>',
+    sub:'Ceremonial crescent blades, midnight collector hoodies, Mr. Knight apparel, and ancient Egyptian artifacts.',
+    btn:'DISCOVER MOON KNIGHT',
+    filter:'collectibles',
+    isCat:true
+  }
+];
+
+let curHeroSlide=0;
+let heroTimer=null;
+
+function switchHeroSlide(idx){
+  curHeroSlide=idx;
+  const s=HERO_SLIDES[idx];if(!s)return;
+  document.querySelectorAll('.hero-slide').forEach((el,i)=>{el.classList.toggle('active',i===idx)});
+  document.querySelectorAll('.hsel-btn').forEach((btn,i)=>{
+    btn.classList.toggle('active',i===idx);
+    btn.setAttribute('aria-selected',i===idx?'true':'false');
+  });
+  const b=document.getElementById('h-badge-txt');if(b)b.textContent=s.tag;
+  const t=document.getElementById('h-title');if(t)t.innerHTML=s.title;
+  const sub=document.getElementById('h-sub');if(sub)sub.textContent=s.sub;
+  const btnTxt=document.getElementById('h-btn-txt');if(btnTxt)btnTxt.textContent=s.btn;
+  const btn=document.getElementById('h-cta-btn');
+  if(btn)btn.onclick=()=>{if(s.isCat)filterByCat(s.filter);else filterByChar(s.filter);navigate('shop')};
+  startHeroTimer();
+}
+
+function startHeroTimer(){
+  clearInterval(heroTimer);
+  heroTimer=setInterval(()=>{
+    const next=(curHeroSlide+1)%HERO_SLIDES.length;
+    switchHeroSlide(next);
+  },7000);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HOME PAGE
+═══════════════════════════════════════════════════════════ */
+const CHARS=[
+  {name:'Spider-Man',color:'#8B0000',img:'imgs/char_spiderman.jpg',count:4},
+  {name:'Iron Man',color:'#8B4513',img:'imgs/char_ironman.jpg',count:4},
+  {name:'Captain America',color:'#00008B',img:'imgs/char_captainamerica.jpg',count:4},
+  {name:'Thor',color:'#4B4B4B',img:'imgs/char_thor.jpg',count:4},
+  {name:'Hulk',color:'#006400',img:'imgs/char_hulk.jpg',count:4},
+  {name:'Avengers',color:'#8B0000',img:'imgs/char_avengers.jpg',count:5},
+  {name:'Black Panther',color:'#2E0854',img:'imgs/char_blackpanther.jpg',count:4},
+  {name:'Guardians',color:'#4B0082',img:'imgs/char_guardians.jpg',count:4}
+];
+function renderHome(){
+  const feat=P.filter(p=>p.feat).slice(0,8);
+  const newps=P.filter(p=>p.newA).slice(0,4);
+  const s=HERO_SLIDES[curHeroSlide]||HERO_SLIDES[0];
+  return`
+  <section class="hero" aria-label="Hero banner">
+    <!-- Multi-Character Cinematic Slides (Landscape format) -->
+    <div class="hero-cinematic" aria-hidden="true">
+      <div class="hero-slides">
+        <div class="hero-slide active" style="background-image:url('imgs/hero_new_avengers.jpg');background-position:center 25%"></div>
+        <div class="hero-slide" style="background-image:url('imgs/hero_spiderman.jpg');background-position:center center"></div>
+        <div class="hero-slide" style="background-image:url('imgs/hero_loki.jpg');background-position:center 20%"></div>
+        <div class="hero-slide" style="background-image:url('imgs/hero_moonknight.jpg');background-position:center 25%"></div>
+      </div>
+      <div class="hero-cinematic-overlay"></div>
+      <div class="hero-aura"></div>
+      <div class="hero-grid"></div>
+      <div class="hero-embers">
+        <span class="ember e1"></span>
+        <span class="ember e2"></span>
+        <span class="ember e3"></span>
+        <span class="ember e4"></span>
+        <span class="ember e5"></span>
+        <span class="ember e6"></span>
+      </div>
+    </div>
+
+    <div class="hero-container">
+      <div class="hero-c">
+        <div class="hero-badge h-anim-1">
+          <span class="hbadge-dot"></span>
+          <span id="h-badge-txt">${s.tag}</span>
+        </div>
+        <h1 class="hero-title h-anim-2" id="h-title">
+          ${s.title}
+        </h1>
+        <p class="hero-sub h-anim-3" id="h-sub">
+          ${s.sub}
+        </p>
+        <div class="hero-btns h-anim-4">
+          <button class="btn btn-primary btn-lg btn-shimmer" id="h-cta-btn" onclick="document.getElementById('shop-s').scrollIntoView({behavior:'smooth'})">
+            <span id="h-btn-txt">${s.btn}</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <button class="btn btn-outline btn-lg" onclick="navigate('shop')">EXPLORE 40+ ITEMS</button>
+        </div>
+        <div class="hero-stats h-anim-5">
+          <div class="hstat-item"><div class="hstat-val">40+</div><div class="hstat-lbl">Artifacts</div></div>
+          <div class="hstat-item"><div class="hstat-val">100%</div><div class="hstat-lbl">Authentic</div></div>
+          <div class="hstat-item"><div class="hstat-val">4.9 ★</div><div class="hstat-lbl">Fan Rating</div></div>
+        </div>
+      </div>
+
+      <!-- Character Stage Selector Tabs -->
+      <div class="hero-selector" role="tablist" aria-label="Hero Spotlight Stages">
+        ${HERO_SLIDES.map((sl,i)=>`
+          <button class="hsel-btn${i===curHeroSlide?' active':''}" onclick="switchHeroSlide(${i})" role="tab" aria-selected="${i===curHeroSlide?'true':'false'}">
+            <span>${sl.icon}</span> ${sl.name}
+          </button>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="hero-scroll" onclick="document.getElementById('shop-s').scrollIntoView({behavior:'smooth'})" role="button" aria-label="Scroll to shop">
+      <div class="scroll-mouse"><div class="scroll-dot"></div></div>
+      <span>Scroll Down</span>
+    </div>
+  </section>
+
+  <div class="marquee-strip" aria-hidden="true">
+    <div class="marquee-track">
+      ${[...Array(2)].map(()=>`<span class="marq-item">FREE DELIVERY OVER ₹999 <span class="marq-sep">✦</span></span><span class="marq-item">OFFICIAL MARVEL MERCHANDISE <span class="marq-sep">✦</span></span><span class="marq-item">EASY RETURNS &amp; EXCHANGES <span class="marq-sep">✦</span></span><span class="marq-item">COLLECTOR'S EDITIONS AVAILABLE <span class="marq-sep">✦</span></span><span class="marq-item">PREMIUM QUALITY GUARANTEED <span class="marq-sep">✦</span></span>`).join('')}
+    </div>
+  </div>
+
+  <section class="section" id="shop-s" aria-labelledby="cat-ttl">
+    <div class="container">
+      <div class="sec-hdr">
+        <div><div class="sec-tag">Characters</div><h2 class="sec-title" id="cat-ttl">Shop by Hero</h2><p class="sec-sub">Find your favorite Marvel universe character</p></div>
+        <button class="btn btn-outline btn-sm" onclick="navigate('shop')">VIEW ALL →</button>
+      </div>
+      <div class="cat-grid">
+        ${CHARS.map(ch=>`
+        <div class="cat-card reveal" onclick="filterByChar('${ch.name}');navigate('shop')" role="button" tabindex="0" aria-label="Shop ${ch.name}" onkeypress="if(event.key==='Enter'){filterByChar('${ch.name}');navigate('shop')}">
+          <img src="${ch.img}" alt="${ch.name}" class="cat-card-img" loading="lazy">
+          <div class="cat-overlay"></div>
+          <div class="cat-content">
+            <span class="cat-badge">MARVEL HERO</span>
+            <div class="cat-name">${ch.name}</div>
+            <div class="cat-cnt">${P.filter(p=>p.char===ch.name).length} products</div>
+            <div class="cat-cta">Shop Collection <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--bg1);padding-top:56px;padding-bottom:56px" aria-labelledby="feat-ttl">
+    <div class="container">
+      <div class="sec-hdr">
+        <div><div class="sec-tag" style="color:var(--gold)">⭐ Featured</div><h2 class="sec-title" id="feat-ttl">Hero Picks</h2><p class="sec-sub">Handpicked premium selections</p></div>
+        <button class="btn btn-outline btn-sm" onclick="navigate('shop')">SEE ALL →</button>
+      </div>
+      <div class="prod-grid">${feat.map(p=>pCard(p)).join('')}</div>
+    </div>
+  </section>
+
+  ${newps.length?`
+  <section class="section" aria-labelledby="new-ttl">
+    <div class="container">
+      <div class="sec-hdr">
+        <div><div class="sec-tag">Just Landed</div><h2 class="sec-title" id="new-ttl">New Arrivals</h2><p class="sec-sub">Fresh merch from the Marvel universe</p></div>
+        <button class="btn btn-outline btn-sm" onclick="filterNew();navigate('shop')">VIEW ALL →</button>
+      </div>
+      <div class="prod-grid prod-grid-3">${newps.map(p=>pCard(p)).join('')}</div>
+    </div>
+  </section>`:''}`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SHOP PAGE
+═══════════════════════════════════════════════════════════ */
+function renderShop(){
+  const allChars=[...new Set(P.map(p=>p.char))].sort();
+  const allCats=[...new Set(P.map(p=>p.cat))].sort();
+  return`
+  <div class="container" style="padding-top:36px;padding-bottom:40px">
+    <div style="margin-bottom:28px"><div class="sec-tag">Catalog</div><h1 class="sec-title">Marvel Shop</h1></div>
+    <div class="shop-layout">
+      <aside class="filter-sb" aria-label="Product filters">
+        <div class="filter-hdr"><span class="filter-title">Filters</span><button class="filter-clear" onclick="clearFilters()">Clear All</button></div>
+        <div class="fgroup" id="fg-char">
+          <div class="fgtitle" onclick="toggleFG('fg-char')">Character<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+          <div class="fgbody">${allChars.map(c=>{const cnt=P.filter(p=>p.char===c).length;const chk=S.filters.chars.includes(c);return`<label class="fopt"><input type="checkbox"${chk?' checked':''} onchange="toggleCF('${c}',this.checked)"><span class="fchk"></span><span class="fopt-lbl">${c}</span><span class="fopt-cnt">${cnt}</span></label>`}).join('')}</div>
+        </div>
+        <div class="fgroup" id="fg-cat">
+          <div class="fgtitle" onclick="toggleFG('fg-cat')">Category<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+          <div class="fgbody">${allCats.map(c=>{const cnt=P.filter(p=>p.cat===c).length;const chk=S.filters.cats.includes(c);return`<label class="fopt"><input type="checkbox"${chk?' checked':''} onchange="toggleCatF('${c}',this.checked)"><span class="fchk"></span><span class="fopt-lbl">${c[0].toUpperCase()+c.slice(1)}</span><span class="fopt-cnt">${cnt}</span></label>`}).join('')}</div>
+        </div>
+        <div class="fgroup" id="fg-price">
+          <div class="fgtitle" onclick="toggleFG('fg-price')">Price Range<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+          <div class="fgbody">
+            <div class="pr-display"><span id="pr-min-d">₹${S.filters.minP.toLocaleString()}</span><span id="pr-max-d">₹${S.filters.maxP.toLocaleString()}</span></div>
+            <div class="pr-track-wrap"><div class="pr-track"></div><div class="pr-fill" id="pr-fill"></div><input type="range" id="pr-min-r" min="0" max="15000" step="100" value="${S.filters.minP}" oninput="updatePR()"><input type="range" id="pr-max-r" min="0" max="15000" step="100" value="${S.filters.maxP}" oninput="updatePR()"></div>
+            <div style="display:flex;gap:8px"><input type="number" id="pr-min-i" value="${S.filters.minP}" min="0" max="15000" class="fin" style="width:50%" placeholder="Min" oninput="syncPR('min')"><input type="number" id="pr-max-i" value="${S.filters.maxP}" min="0" max="15000" class="fin" style="width:50%" placeholder="Max" oninput="syncPR('max')"></div>
+          </div>
+        </div>
+        <div class="fgroup" id="fg-rating">
+          <div class="fgtitle" onclick="toggleFG('fg-rating')">Rating<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+          <div class="fgbody">${[4.5,4.0,3.5,3.0].map(r=>`<label class="fopt"><input type="radio" name="rf" value="${r}"${S.filters.minR===r?' checked':''} onchange="setRF(${r})"><span class="fchk" style="border-radius:50%"></span><span class="fopt-lbl" style="color:var(--gold)">★★★★★</span><span class="fopt-cnt">${r}+</span></label>`).join('')}</div>
+        </div>
+        <div class="fgroup" id="fg-disc">
+          <div class="fgtitle" onclick="toggleFG('fg-disc')">Discount<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+          <div class="fgbody">${[30,25,20,10].map(d=>`<label class="fopt"><input type="radio" name="df" value="${d}"${S.filters.disc===d?' checked':''} onchange="setDF(${d})"><span class="fchk" style="border-radius:50%"></span><span class="fopt-lbl">${d}% or more</span></label>`).join('')}</div>
+        </div>
+        <div class="fgroup">
+          <div class="fgbody"><label class="fopt"><input type="checkbox"${S.filters.newA?' checked':''} onchange="setNewF(this.checked)"><span class="fchk"></span><span class="fopt-lbl">New Arrivals Only</span></label></div>
+        </div>
+      </aside>
+      <div>
+        <div class="shop-ctrl">
+          <p class="pcnt" id="pcnt">Loading...</p>
+          <select class="sort-sel" onchange="S.sort=this.value;refreshGrid()" aria-label="Sort products">
+            <option value="recommended"${S.sort==='recommended'?' selected':''}>Recommended</option>
+            <option value="popular"${S.sort==='popular'?' selected':''}>Most Popular</option>
+            <option value="newest"${S.sort==='newest'?' selected':''}>Newest First</option>
+            <option value="price-asc"${S.sort==='price-asc'?' selected':''}>Price: Low → High</option>
+            <option value="price-desc"${S.sort==='price-desc'?' selected':''}>Price: High → Low</option>
+            <option value="rating"${S.sort==='rating'?' selected':''}>Top Rated</option>
+            <option value="discount"${S.sort==='discount'?' selected':''}>Best Discount</option>
+          </select>
+        </div>
+        <div class="prod-grid prod-grid-3" id="shop-grid"></div>
+        <div id="shop-empty" style="display:none">
+          <div class="empty-state"><div class="empty-ico">🔍</div><h3 class="empty-ttl">No heroes found.</h3><p class="empty-sub">Try adjusting your filters.</p><button class="btn btn-primary" style="margin-top:14px" onclick="clearFilters()">CLEAR FILTERS</button></div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+function setupShop(){refreshGrid();updatePR()}
+function refreshGrid(){
+  const grid=document.getElementById('shop-grid'),empty=document.getElementById('shop-empty'),cnt=document.getElementById('pcnt');
+  if(!grid)return;
+  const ps=getFiltered();
+  if(cnt)cnt.innerHTML=`<strong>${ps.length}</strong> products found`;
+  if(!ps.length){grid.style.display='none';if(empty)empty.style.display=''}
+  else{grid.style.display='';if(empty)empty.style.display='none';grid.innerHTML=ps.map(p=>pCard(p)).join('');setTimeout(setupObs,50)}
+}
+function toggleFG(id){document.getElementById(id)?.classList.toggle('collapsed')}
+function toggleCF(c,chk){if(chk){if(!S.filters.chars.includes(c))S.filters.chars.push(c)}else{S.filters.chars=S.filters.chars.filter(x=>x!==c)}refreshGrid()}
+function toggleCatF(c,chk){if(chk){if(!S.filters.cats.includes(c))S.filters.cats.push(c)}else{S.filters.cats=S.filters.cats.filter(x=>x!==c)}refreshGrid()}
+function setRF(r){S.filters.minR=r;refreshGrid()}
+function setDF(d){S.filters.disc=d;refreshGrid()}
+function setNewF(chk){S.filters.newA=chk;refreshGrid()}
+function updatePR(){
+  const minR=document.getElementById('pr-min-r'),maxR=document.getElementById('pr-max-r');if(!minR||!maxR)return;
+  let mn=parseInt(minR.value),mx=parseInt(maxR.value);if(mn>mx)[mn,mx]=[mx,mn];
+  S.filters.minP=mn;S.filters.maxP=mx;
+  const md=document.getElementById('pr-min-d'),xd=document.getElementById('pr-max-d');
+  if(md)md.textContent='₹'+mn.toLocaleString();if(xd)xd.textContent='₹'+mx.toLocaleString();
+  const fill=document.getElementById('pr-fill');
+  if(fill){fill.style.left=(mn/15000*100)+'%';fill.style.width=((mx-mn)/15000*100)+'%'}
+  const mi=document.getElementById('pr-min-i'),xi=document.getElementById('pr-max-i');
+  if(mi)mi.value=mn;if(xi)xi.value=mx;
+  refreshGrid();
+}
+function syncPR(w){
+  const mi=document.getElementById('pr-min-i'),xi=document.getElementById('pr-max-i'),mr=document.getElementById('pr-min-r'),xr=document.getElementById('pr-max-r');
+  if(!mi||!xi||!mr||!xr)return;
+  if(w==='min')mr.value=mi.value;else xr.value=xi.value;updatePR();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PRODUCT DETAIL PAGE
+═══════════════════════════════════════════════════════════ */
+let dQty=1,dSize='',dColor='';
+function renderDetail(id){
+  const pr=P.find(p=>p.id===id);if(!pr)return render404();
+  S.viewed=[id,...S.viewed.filter(x=>x!==id)].slice(0,8);saveViewed();
+  const wl=S.wishlist.includes(id);
+  const sim=P.filter(p=>p.char===pr.char&&p.id!==id).slice(0,4);
+  dQty=1;dSize=pr.sizes[0]||'';dColor=pr.colors[0]||'';
+  return`
+  <div class="container">
+    <nav aria-label="Breadcrumb" style="padding:22px 0 6px;font-size:12px;color:var(--t2);display:flex;gap:7px;align-items:center">
+      <span style="cursor:pointer" onclick="navigate('home')">Home</span><span>›</span>
+      <span style="cursor:pointer" onclick="navigate('shop')">Shop</span><span>›</span>
+      <span style="cursor:pointer" onclick="filterByChar('${pr.char}');navigate('shop')">${pr.char}</span><span>›</span>
+      <span style="color:var(--t0)">${pr.name}</span>
+    </nav>
+    <div class="pdl">
+      <div>
+        <div class="pd-gal-main"><img src="${(pr.gallery&&pr.gallery[0])||pr.img}" alt="${pr.name}" class="pd-gal-img" id="pd-img"></div>
+        ${pr.gallery && pr.gallery.length > 1 ? `<div class="pd-thumbs">${pr.gallery.map((g,i)=>`<div class="pd-thumb${i===0?' active':''}" onclick="pdSwitch('${g}',this)"><img src="${g}" alt="View ${i+1}" loading="lazy"></div>`).join('')}</div>` : ''}
+      </div>
+      <div>
+        <div class="pchar">${pr.char}</div>
+        <h1 class="pd-title">${pr.name}</h1>
+        <div class="prating" style="margin-bottom:14px"><div class="stars" style="font-size:15px">${stars(pr.rating)}</div><span class="rval" style="font-size:14px">${pr.rating}</span><span class="rcnt" style="font-size:13px">(${pr.reviews.toLocaleString()} reviews)</span></div>
+        <div class="pd-price-big">${fp(pr.price)}</div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin:6px 0 14px"><span style="font-size:14px;color:var(--t2);text-decoration:line-through">${fp(pr.orig)}</span><span style="font-size:13px;font-weight:700;color:var(--ok)">${pr.disc}% OFF — Save ${fp(pr.orig-pr.price)}!</span></div>
+        <span class="avail-badge in">In Stock — ${pr.stock} left</span>
+        ${pr.sizes.length>1?`<div style="margin-bottom:18px"><div class="m-sec-ttl" style="margin-bottom:8px">Select Size</div><div class="sz-opts" id="d-sizes">${pr.sizes.map((s,i)=>`<button class="sz-btn${i===0?' active':''}" onclick="dSelSize('${s}',this)">${s}</button>`).join('')}</div></div>`:''}
+        ${pr.colors.length?`<div style="margin-bottom:18px"><div class="m-sec-ttl" style="margin-bottom:8px">Color</div><div class="cl-opts" id="d-colors">${pr.colors.map((c,i)=>`<button class="cl-btn${i===0?' active':''}" style="background:${c}" onclick="dSelColor('${c}',this)" aria-label="Color ${c}"></button>`).join('')}</div></div>`:''}
+        <div style="margin-bottom:20px"><div class="m-sec-ttl" style="margin-bottom:8px">Quantity</div>
+          <div class="m-qty"><button class="m-qty-btn" onclick="dChgQty(-1)">−</button><span class="m-qty-v" id="d-qty-v">1</span><button class="m-qty-btn" onclick="dChgQty(1)">+</button></div>
+        </div>
+        <div class="pd-actions">
+          <button class="btn btn-primary btn-lg" style="flex:1" id="d-atc" onclick="dATC(${id})">ADD TO CART</button>
+          <button class="btn btn-outline btn-lg" style="flex:1" onclick="dBuyNow(${id})">BUY NOW</button>
+          <button class="hbtn${wl?' active':''}" style="width:50px;height:50px;border:1.5px solid var(--bdr);border-radius:var(--r8);font-size:21px" data-wl="${id}" onclick="toggleWL(${id});this.classList.toggle('active');this.innerHTML=S.wishlist.includes(${id})?'♥':'♡'" aria-label="Wishlist" aria-pressed="${wl}">${wl?'♥':'♡'}</button>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r12);padding:14px;margin-bottom:20px">
+          <div style="display:flex;gap:10px;margin-bottom:10px"><span style="font-size:18px">🚚</span><div><div style="font-size:13px;font-weight:600">Free Delivery on orders above ₹999</div><div style="font-size:11px;color:var(--t2)">3–5 business days</div></div></div>
+          <div style="display:flex;gap:10px"><span style="font-size:18px">↩️</span><div><div style="font-size:13px;font-weight:600">7-Day Returns</div><div style="font-size:11px;color:var(--t2)">Easy returns within 7 days</div></div></div>
+        </div>
+        <div class="accord">
+          ${[['Product Description',pr.desc],['Material & Care','Machine wash cold. Do not bleach. Tumble dry low. Do not iron on design.'],['Size Guide','XS:34-36" · S:36-38" · M:38-40" · L:40-42" · XL:42-44" · XXL:44-46"'],['Shipping & Returns','Standard delivery: 3–5 business days. Free standard delivery on orders above ₹999. 7-day returns on unused items.'],['Customer Reviews',`⭐ ${pr.rating}/5 · ${pr.reviews} verified reviews\n\n"Absolutely brilliant quality!" — Rahul M.\n"Exactly as shown, fast delivery!" — Priya K.`]].map((a,i)=>`
+          <div class="acc-item${i===0?' open':''}">
+            <div class="acc-hdr" onclick="toggleAcc(this.parentElement)" role="button" aria-expanded="${i===0}"><span class="acc-ttl">${a[0]}</span><span class="acc-ico">+</span></div>
+            <div class="acc-body"><div class="acc-content">${a[1].replace(/\n/g,'<br>')}</div></div>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>
+    ${sim.length?`<section style="padding:40px 0" aria-labelledby="sim-ttl"><div class="sec-tag">More Like This</div><h2 class="sec-title" id="sim-ttl" style="margin-bottom:28px">Similar Products</h2><div class="prod-grid">${sim.map(p=>pCard(p,'reveal')).join('')}</div></section>`:''}
+  </div>`;
+}
+function pdSwitch(src,el){const img=document.getElementById('pd-img');if(img)img.src=src;document.querySelectorAll('.pd-thumb').forEach(t=>t.classList.remove('active'));el?.classList.add('active')}
+function dSelSize(s,el){dSize=s;document.querySelectorAll('#d-sizes .sz-btn').forEach(b=>b.classList.remove('active'));el?.classList.add('active')}
+function dSelColor(c,el){dColor=c;document.querySelectorAll('#d-colors .cl-btn').forEach(b=>b.classList.remove('active'));el?.classList.add('active')}
+function dChgQty(d){dQty=Math.max(1,Math.min(10,dQty+d));const el=document.getElementById('d-qty-v');if(el)el.textContent=dQty}
+function dATC(id){
+  const pr=P.find(p=>p.id===id),btn=document.getElementById('d-atc');if(!pr)return;
+  btn.textContent='ADDING...';btn.disabled=true;
+  setTimeout(()=>{addToCart(id,dSize||pr.sizes[0]||'One Size',dColor||pr.colors[0]||'',dQty);btn.textContent='ADDED ✓';setTimeout(()=>{btn.textContent='ADD TO CART';btn.disabled=false},2000)},600);
+}
+function dBuyNow(id){const pr=P.find(p=>p.id===id);if(!pr)return;addToCart(id,dSize||pr.sizes[0]||'One Size',dColor||pr.colors[0]||'',dQty,()=>navigate('checkout'))}
+function toggleAcc(item){const was=item.classList.contains('open');document.querySelectorAll('.acc-item').forEach(el=>el.classList.remove('open'));if(!was)item.classList.add('open')}
+
+/* ═══════════════════════════════════════════════════════════
+   WISHLIST PAGE
+═══════════════════════════════════════════════════════════ */
+function renderWishlist(){
+  const wps=P.filter(p=>S.wishlist.includes(p.id));
+  return`<div class="container" style="padding-top:36px;padding-bottom:72px">
+    <div style="margin-bottom:28px"><div class="sec-tag">Saved</div><h1 class="sec-title">My Wishlist (${wps.length})</h1></div>
+    ${!wps.length?`<div class="empty-state"><div class="empty-ico">♡</div><h3 class="empty-ttl">Your heroic collection starts here.</h3><p class="empty-sub">Save your favorite items to your wishlist.</p><button class="btn btn-primary" style="margin-top:14px" onclick="navigate('shop')">EXPLORE PRODUCTS</button></div>`:`<div class="wl-grid">${wps.map(p=>pCard(p)).join('')}</div>`}
+  </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CHECKOUT PAGE
+═══════════════════════════════════════════════════════════ */
+function renderCheckout(){
+  if(!S.cart.length)return`<div class="container"><div class="empty-state" style="padding:72px 24px"><div class="empty-ico">🛒</div><h3 class="empty-ttl">Your cart is empty!</h3><p class="empty-sub">Add some Marvel merchandise first.</p><button class="btn btn-primary" style="margin-top:14px" onclick="navigate('shop')">START SHOPPING</button></div></div>`;
+  return`<div class="container">
+    <div style="padding:28px 0 20px"><h1 style="font-size:26px;font-weight:800">Checkout</h1></div>
+    <div class="co-steps" id="co-steps">
+      <div class="co-step active" id="cst-1"><div class="step-n">1</div><span>Delivery</span></div>
+      <div class="step-div" id="cdiv-1"></div>
+      <div class="co-step" id="cst-2"><div class="step-n">2</div><span>Summary</span></div>
+      <div class="step-div" id="cdiv-2"></div>
+      <div class="co-step" id="cst-3"><div class="step-n">3</div><span>Payment</span></div>
+    </div>
+    <div class="co-layout">
+      <div id="co-main">${renderCoStep(1)}</div>
+      <div class="co-sum">
+        <h3>Order Summary</h3>
+        ${S.cart.map(i=>`<div class="co-item"><img src="${i.img}" alt="${i.name}" class="co-item-img" loading="lazy"><div style="flex:1"><div class="co-item-name">${i.name}</div><div class="co-item-meta">Qty:${i.qty}${i.size?' · '+i.size:''}</div></div><div class="co-item-price">${fp(i.price*i.qty)}</div></div>`).join('')}
+        <div class="co-totals">
+          <div class="co-row"><span class="lbl">Subtotal (${cartCount()} items)</span><span>${fp(calcSub())}</span></div>
+          <div class="co-row"><span class="lbl">Savings</span><span class="co-sav">−${fp(calcDisc())}</span></div>
+          <div class="co-row"><span class="lbl">Delivery</span><span>${calcDel()===0?'<span style="color:var(--ok)">FREE</span>':fp(calcDel())}</span></div>
+          <div class="co-row grand"><span class="lbl">Total</span><span style="color:var(--red)">${fp(calcTotal())}</span></div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+function renderCoStep(n){
+  if(n===1)return`<div class="co-panel"><h2>Delivery Address</h2>
+    <form onsubmit="event.preventDefault();goCoStep(2)">
+      <div class="fgrid">
+        <div class="fg"><label class="flbl" for="fn">First Name *</label><input class="fin" id="fn" type="text" placeholder="Tony" required autocomplete="given-name"></div>
+        <div class="fg"><label class="flbl" for="ln">Last Name *</label><input class="fin" id="ln" type="text" placeholder="Stark" required autocomplete="family-name"></div>
+        <div class="fg"><label class="flbl" for="ph">Phone *</label><input class="fin" id="ph" type="tel" placeholder="+91 98765 43210" required autocomplete="tel"></div>
+        <div class="fg"><label class="flbl" for="em">Email *</label><input class="fin" id="em" type="email" placeholder="tony@stark.com" required autocomplete="email"></div>
+        <div class="fg ffull"><label class="flbl" for="ad">Address *</label><input class="fin" id="ad" type="text" placeholder="Stark Tower, 200 Park Avenue" required autocomplete="street-address"></div>
+        <div class="fg"><label class="flbl" for="ci">City *</label><input class="fin" id="ci" type="text" placeholder="Mumbai" required autocomplete="address-level2"></div>
+        <div class="fg"><label class="flbl" for="st">State *</label><input class="fin" id="st" type="text" placeholder="Maharashtra" required autocomplete="address-level1"></div>
+        <div class="fg"><label class="flbl" for="pin">PIN Code *</label><input class="fin" id="pin" type="text" placeholder="400001" pattern="[0-9]{6}" required></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:20px">
+        <button type="button" class="btn btn-ghost" onclick="navigate('shop')">← Back</button>
+        <button type="submit" class="btn btn-primary" style="flex:1">CONTINUE →</button>
+      </div>
+    </form></div>`;
+  if(n===2)return`<div class="co-panel"><h2>Order Summary</h2>
+    ${S.cart.map(i=>`<div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--bdr)"><img src="${i.img}" alt="${i.name}" style="width:60px;height:75px;object-fit:cover;border-radius:var(--r8);background:var(--bg3)"><div style="flex:1"><div style="font-size:14px;font-weight:600;margin-bottom:3px">${i.name}</div><div style="font-size:12px;color:var(--t2)">${i.char} · Qty:${i.qty}${i.size?' · '+i.size:''}</div><div style="font-size:15px;font-weight:700;margin-top:6px">${fp(i.price*i.qty)}</div></div></div>`).join('')}
+    <div style="padding:18px 0 0">
+      <div style="display:flex;justify-content:space-between;font-size:14px;padding:7px 0;color:var(--t1)"><span>Subtotal</span><span>${fp(calcSub())}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:14px;padding:7px 0;color:var(--ok)"><span>Total Savings</span><span>−${fp(calcDisc())}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:14px;padding:7px 0;color:var(--t1)"><span>Delivery</span><span>${calcDel()===0?'FREE':fp(calcDel())}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:17px;font-weight:800;padding:14px 0 0;border-top:1px solid var(--bdr);margin-top:7px"><span>Total</span><span style="color:var(--red)">${fp(calcTotal())}</span></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button class="btn btn-ghost" onclick="goCoStep(1)">← Back</button>
+      <button class="btn btn-primary" style="flex:1" onclick="goCoStep(3)">PROCEED TO PAYMENT →</button>
+    </div></div>`;
+  if(n===3)return`<div class="co-panel"><h2>Payment Method</h2>
+    <div class="pay-opts" id="pay-opts">
+      <div class="pay-opt sel" onclick="selPay(this)" role="radio" tabindex="0"><div class="pay-radio"></div><span class="pay-ico">📱</span><div><div class="pay-name">UPI Payment</div><div class="pay-desc">Google Pay, PhonePe, Paytm</div></div></div>
+      <div class="pay-opt" onclick="selPay(this)" role="radio" tabindex="0"><div class="pay-radio"></div><span class="pay-ico">💳</span><div><div class="pay-name">Credit / Debit Card</div><div class="pay-desc">Visa, Mastercard, RuPay</div></div></div>
+      <div class="pay-opt" onclick="selPay(this)" role="radio" tabindex="0"><div class="pay-radio"></div><span class="pay-ico">💵</span><div><div class="pay-name">Cash on Delivery</div><div class="pay-desc">Pay when you receive your order</div></div></div>
+    </div>
+    <div class="demo-notice">⚠️ <span>This is a <strong>demo project</strong>. No real payment will be processed.</span></div>
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button class="btn btn-ghost" onclick="goCoStep(2)">← Back</button>
+      <button class="btn btn-primary" style="flex:1" id="place-btn" onclick="placeOrder()">PLACE ORDER · ${fp(calcTotal())}</button>
+    </div></div>`;
+}
+function goCoStep(n){
+  S.coStep=n;
+  const main=document.getElementById('co-main');if(main)main.innerHTML=renderCoStep(n);
+  [1,2,3].forEach(s=>{
+    const el=document.getElementById('cst-'+s);if(!el)return;
+    el.className='co-step'+(n>=s?' active':'')+(n>s?' done':'');
+    el.querySelector('.step-n').textContent=n>s?'✓':s;
+  });
+  const d1=document.getElementById('cdiv-1'),d2=document.getElementById('cdiv-2');
+  if(d1)d1.classList.toggle('done',n>1);if(d2)d2.classList.toggle('done',n>2);
+}
+function selPay(el){document.querySelectorAll('.pay-opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel')}
+function placeOrder(){
+  const btn=document.getElementById('place-btn');if(btn){btn.textContent='PLACING ORDER...';btn.disabled=true}
+  setTimeout(()=>{
+    S.lastOrder={id:'MRV'+Date.now().toString().slice(-8),items:[...S.cart],total:calcTotal(),date:new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}),delDate:new Date(Date.now()+5*864e5).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})};
+    S.cart=[];saveCart();updateCartBadge();navigate('order-success');
+  },1500);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ORDER SUCCESS
+═══════════════════════════════════════════════════════════ */
+function renderSuccess(){
+  const o=S.lastOrder;if(!o){navigate('home');return''}
+  return`<div class="container"><div class="ord-success">
+    <div class="suc-ico">✓</div>
+    <h1 class="suc-title">ORDER CONFIRMED!</h1>
+    <p class="suc-sub">Your Marvel collection is on its way, hero.<br>Get ready to suit up!</p>
+    <div class="ord-card">
+      <div class="ord-meta">
+        <div><div class="om-lbl">Order ID</div><div class="om-val" style="color:var(--red)">#${o.id}</div></div>
+        <div><div class="om-lbl">Order Date</div><div class="om-val">${o.date}</div></div>
+        <div><div class="om-lbl">Items</div><div class="om-val">${o.items.length} item${o.items.length>1?'s':''}</div></div>
+        <div><div class="om-lbl">Total</div><div class="om-val" style="color:var(--ok)">${fp(o.total)}</div></div>
+      </div>
+      <div style="border-top:1px solid var(--bdr);padding-top:18px;margin-bottom:18px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t2);margin-bottom:14px">Items Ordered</div>
+        ${o.items.map(i=>`<div style="display:flex;gap:10px;margin-bottom:9px"><img src="${i.img}" alt="${i.name}" style="width:46px;height:58px;object-fit:cover;border-radius:6px;background:var(--bg3)"><div><div style="font-size:12px;font-weight:600">${i.name}</div><div style="font-size:11px;color:var(--t2)">Qty:${i.qty}</div><div style="font-size:13px;font-weight:700">${fp(i.price*i.qty)}</div></div></div>`).join('')}
+      </div>
+      <div style="border-top:1px solid var(--bdr);padding-top:18px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t2);margin-bottom:14px">Estimated Delivery by ${o.delDate}</div>
+        <div class="track-tl">
+          ${[{l:'Order Placed',d:o.date,done:true,active:false},{l:'Order Packed',d:'Processing',done:false,active:true},{l:'Shipped',d:'Estimated soon',done:false,active:false},{l:'Out for Delivery',d:o.delDate,done:false,active:false},{l:'Delivered',d:o.delDate,done:false,active:false}].map((st,i,a)=>`
+          <div class="trk-step${st.done?' done':''}${st.active?' active':''}">
+            <div class="trk-ind"><div class="trk-dot"></div>${i<a.length-1?'<div class="trk-line"></div>':''}</div>
+            <div class="trk-info">
+              <div class="trk-lbl" style="${st.active?'color:var(--red)':st.done?'color:var(--ok)':'color:var(--t2)'}">${st.l}</div>
+              <div class="trk-date">${st.d}</div>
+            </div>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
+      <button class="btn btn-ghost btn-lg" onclick="navigate('account')">TRACK ORDER</button>
+      <button class="btn btn-primary btn-lg" onclick="navigate('shop')">CONTINUE SHOPPING</button>
+    </div>
+  </div></div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ACCOUNT PAGE
+═══════════════════════════════════════════════════════════ */
+function renderAccount(){
+  return`<div class="container">
+    <div class="acct-layout">
+      <div class="acct-sb">
+        <div class="acct-prof"><div class="acct-av">T</div><div><div class="acct-name">Tony Stark</div><div class="acct-email">tony@stark.com</div></div></div>
+        <div class="acct-nav active" onclick="swAcct('orders',this)">📦 My Orders</div>
+        <div class="acct-nav" onclick="swAcct('wishlist',this)">♡ Wishlist</div>
+        <div class="acct-nav" onclick="swAcct('addresses',this)">📍 Saved Addresses</div>
+        <div class="acct-nav" onclick="swAcct('profile',this)">👤 Profile</div>
+        <div class="acct-nav" onclick="swAcct('notifs',this)">🔔 Notifications</div>
+        <div class="acct-nav" onclick="swAcct('help',this)">❓ Help & Support</div>
+      </div>
+      <div class="acct-content" id="acct-content">${acctTab('orders')}</div>
+    </div>
+  </div>`;
+}
+function acctTab(tab){
+  if(tab==='orders'){
+    const sampleOrders=[{id:'MRV20260901',date:'1 September 2026',status:'Delivered',items:'Spider-Man Premium Hoodie · Qty:1',total:1799,sts:'delivered'},{id:'MRV20260815',date:'15 August 2026',status:'Shipped',items:'Iron Man Helmet Replica · Qty:1',total:8999,sts:'shipped'},{id:'MRV20260720',date:'20 July 2026',status:'Processing',items:'Avengers Chronograph Watch · Qty:1',total:5499,sts:'processing'}];
+    const orderHtml=sampleOrders.concat(S.lastOrder?[{id:S.lastOrder.id,date:S.lastOrder.date,status:'Processing',items:S.lastOrder.items.map(i=>i.name).join(' · '),total:S.lastOrder.total,sts:'processing'}]:[]).map(o=>`
+      <div class="ord-card-a">
+        <div class="ord-card-hdr"><div><div class="ord-id">#${o.id}</div><div class="ord-date">${o.date}</div></div><span class="ord-status sts-${o.sts}">${o.status}</span></div>
+        <div style="font-size:13px;color:var(--t1);margin-bottom:8px">${o.items}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:700">${fp(o.total)}</span><button class="btn btn-sm btn-ghost">View Details</button></div>
+      </div>`).join('');
+    return`<h2>My Orders</h2>${orderHtml}`;
+  }
+  if(tab==='wishlist'){
+    const wps=P.filter(p=>S.wishlist.includes(p.id));
+    return`<h2>My Wishlist (${wps.length})</h2>${!wps.length?'<div class="empty-state" style="padding:40px 0"><div class="empty-ico">♡</div><p class="empty-ttl">No saved items yet</p><button class="btn btn-primary" style="margin-top:12px" onclick="navigate(\'shop\')">EXPLORE PRODUCTS</button></div>':`<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">${wps.map(p=>pCard(p)).join('')}</div>`}`;
+  }
+  if(tab==='addresses')return`<h2>Saved Addresses</h2><div style="background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r12);padding:18px;margin-bottom:12px"><div style="font-size:14px;font-weight:600;margin-bottom:4px">Tony Stark <span style="font-size:11px;background:var(--red);color:#fff;padding:2px 8px;border-radius:100px;margin-left:8px">Default</span></div><div style="font-size:13px;color:var(--t1)">Stark Tower, 200 Park Avenue<br>Mumbai, Maharashtra — 400001</div><div style="margin-top:10px;display:flex;gap:8px"><button class="btn btn-sm btn-ghost">Edit</button><button class="btn btn-sm btn-ghost">Remove</button></div></div><button class="btn btn-outline btn-sm" style="margin-top:8px">+ Add New Address</button>`;
+  if(tab==='profile')return`<h2>Profile</h2><form onsubmit="event.preventDefault();showToast('Profile updated ✓','success')"><div class="fgrid"><div class="fg"><label class="flbl">First Name</label><input class="fin" type="text" value="Tony"></div><div class="fg"><label class="flbl">Last Name</label><input class="fin" type="text" value="Stark"></div><div class="fg ffull"><label class="flbl">Email</label><input class="fin" type="email" value="tony@stark.com"></div><div class="fg ffull"><label class="flbl">Phone</label><input class="fin" type="tel" value="+91 98765 43210"></div></div><button type="submit" class="btn btn-primary" style="margin-top:14px">SAVE CHANGES</button></form>`;
+  if(tab==='notifs')return`<h2>Notifications</h2>${['Order shipped: #MRV20260815','New arrivals in your wishlist characters','Sale alert: Spider-Man collection — up to 35% off','Your review request for Avengers Hoodie'].map((n,i)=>`<div style="padding:14px;background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r12);margin-bottom:10px;display:flex;gap:12px;align-items:flex-start"><span style="font-size:18px">${['📦','💛','🏷️','⭐'][i]}</span><div><div style="font-size:13px;font-weight:600">${n}</div><div style="font-size:11px;color:var(--t2);margin-top:3px">${['2 days ago','3 days ago','5 days ago','1 week ago'][i]}</div></div></div>`).join('')}`;
+  return`<h2>Help & Support</h2>${['How to track my order?','Return & refund process','Size guide & fit recommendations','Payment issues & troubleshooting','Contact customer support'].map(q=>`<div class="acc-item"><div class="acc-hdr" onclick="toggleAcc(this.parentElement)" role="button"><span class="acc-ttl">${q}</span><span class="acc-ico">+</span></div><div class="acc-body"><div class="acc-content">For assistance with "${q.toLowerCase()}", please visit our Help Center or email support@marvelshop.in. Our team responds within 24 hours. Alternatively, call us at 1800-MARVEL (toll-free).</div></div></div>`).join('')}`;
+}
+function swAcct(tab,el){
+  document.querySelectorAll('.acct-nav').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+  const c=document.getElementById('acct-content');if(c)c.innerHTML=acctTab(tab);
+  setTimeout(setupObs,80);
+}
+function setupAcct(){/* ready */}
+
+/* ═══════════════════════════════════════════════════════════
+   404 PAGE
+═══════════════════════════════════════════════════════════ */
+function render404(){
+  return`<div class="container"><div class="p404">
+    <div class="p404-num"><span class="r">4</span>0<span class="r">4</span></div>
+    <h1 style="font-size:22px;font-weight:800;margin-bottom:10px">THIS UNIVERSE DOESN'T EXIST.</h1>
+    <p style="font-size:15px;color:var(--t1);margin-bottom:32px;max-width:380px">The page you're looking for has disappeared into another dimension.</p>
+    <button class="btn btn-primary btn-lg" onclick="navigate('shop')">← BACK TO SHOP</button>
+  </div></div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER SCROLL + MOBILE MENU + CART DRAWER
+═══════════════════════════════════════════════════════════ */
+function openCart(){
+  updateCartUI();
+  document.getElementById('cart-ov')?.classList.add('open');
+  document.getElementById('cart-drw')?.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCart(){
+  document.getElementById('cart-ov')?.classList.remove('open');
+  document.getElementById('cart-drw')?.classList.remove('open');
+  document.body.style.overflow='';
+}
+function openMob(){
+  const m=document.getElementById('mob-menu'),btn=document.getElementById('ham-btn');
+  m.classList.add('open');setTimeout(()=>m.classList.add('vis'),10);
+  btn?.setAttribute('aria-expanded','true');
+  document.body.style.overflow='hidden';
+}
+function closeMob(){
+  const m=document.getElementById('mob-menu'),btn=document.getElementById('ham-btn');
+  m.classList.remove('vis');setTimeout(()=>m.classList.remove('open'),400);
+  btn?.setAttribute('aria-expanded','false');
+  document.body.style.overflow='';
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════ */
+(function init(){
+  loadCart(); loadWL(); loadQ(); loadViewed();
+  updateCartBadge(); updateWLBadge();
+
+  // Header scroll & scroll to top button
+  window.addEventListener('scroll',()=>{
+    const sc=window.scrollY;
+    document.getElementById('header')?.classList.toggle('scrolled',sc>40);
+    document.getElementById('scroll-top-btn')?.classList.toggle('vis',sc>280);
+  },{passive:true});
+
+  // Mobile menu
+  document.getElementById('ham-btn')?.addEventListener('click',openMob);
+  document.getElementById('mob-menu')?.addEventListener('click',e=>{if(e.target===e.currentTarget)closeMob()});
+
+  // Modal close
+  document.getElementById('mod-ov')?.addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal()});
+  document.getElementById('modal-x')?.addEventListener('click',closeModal);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeCart();closeMob()}});
+
+  // Search
+  const inp=document.getElementById('search-in'),clr=document.getElementById('s-clear');
+  const dSearch=debounce(q=>showDrop(q),280);
+  inp?.addEventListener('focus',()=>showDrop(inp.value));
+  inp?.addEventListener('input',()=>{const q=inp.value;clr?.classList.toggle('vis',!!q);dSearch(q)});
+  inp?.addEventListener('keydown',e=>{if(e.key==='Enter'&&inp.value.trim()){e.preventDefault();execSearch(inp.value.trim())}});
+  clr?.addEventListener('click',()=>{inp.value='';S.filters.q='';clr.classList.remove('vis');hideDrop();if(S.page==='shop')refreshGrid()});
+  document.addEventListener('click',e=>{if(!e.target.closest('.hdr-search'))hideDrop()});
+
+  // Hash routing
+  const hash=(window.location.hash||'#home').replace('#','');
+  navigate(hash||'home');
+})();
+</script>
+</body>
+</html>
